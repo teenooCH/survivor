@@ -1,0 +1,40 @@
+version: "2"
+linters:
+  enable:
+    - godot
+    - revive
+    - wsl_v5
+  disable:
+    - errcheck
+    - unused
+  settings:
+    revive:
+      rules:
+        - name: unused-parameter
+          disabled: true
+    wsl_v5:
+      allow-first-in-block: true
+      branch-max-lines: 2
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofumpt
+  settings:
+    gofumpt:
+      extra-rules: true
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
