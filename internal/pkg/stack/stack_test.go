@@ -4,7 +4,7 @@ import (
 	"slices"
 	"testing"
 
-	"github.com/teenooCH/survivor/internal/stack"
+	"github.com/teenooCH/survivor/internal/pkg/stack"
 )
 
 func TestStack(t *testing.T) {
