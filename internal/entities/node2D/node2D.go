@@ -6,20 +6,34 @@ import (
 	"sync/atomic"
 
 	"github.com/teenooCH/survivor/internal/entities/node"
+	"github.com/teenooCH/survivor/internal/entities/transform"
+	"github.com/teenooCH/survivor/internal/entities/vector"
 )
 
 type Node2D struct {
-	id       uint64
-	name     string
-	children []node.Node
-	parent   node.Node
+	id             uint64
+	name           string
+	children       []node.Node
+	parent         node.Node
+	localTransform transform.Transform
+	worldTransform transform.Transform
+	isDirty        bool
 }
 
 var globalNodeID atomic.Uint64
 
 func New(name string) *Node2D {
-	return &Node2D{id: globalNodeID.Add(1), name: name, children: make([]node.Node, 0)}
+	return &Node2D{
+		id:             globalNodeID.Add(1),
+		name:           name,
+		children:       make([]node.Node, 0),
+		localTransform: transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+		worldTransform: transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+		isDirty:        true,
+	}
 }
+
+// Implementation of the node.Node interface
 
 func (n *Node2D) GetID() uint64               { return n.id }
 func (n *Node2D) GetName() string             { return n.name }
@@ -44,8 +58,7 @@ func (n *Node2D) GetChildren() iter.Seq[node.Node] {
 func (n *Node2D) RemoveChild(node node.Node) bool {
 	i := slices.Index(n.children, node)
 	if i != -1 {
-		n.children[i] = n.children[len(n.children)-1]
-		n.children = n.children[:len(n.children)-1]
+		n.children = slices.Delete(n.children, i, i+1)
 
 		node.AttachParent(nil)
 
@@ -56,7 +69,63 @@ func (n *Node2D) RemoveChild(node node.Node) bool {
 }
 
 func (n *Node2D) MarkDirty() {
+	if n.isDirty {
+		return
+	}
+
+	n.isDirty = true
 	for c := range n.GetChildren() {
 		c.MarkDirty()
 	}
+}
+
+// Implementation of the transform.Transformable interface
+
+func (n *Node2D) GetTransform() transform.Transform {
+	return n.localTransform
+}
+
+func (n *Node2D) SetTransform(t transform.Transform) {
+	n.localTransform = t
+	n.MarkDirty()
+}
+
+// GetWorldTransform finds the world transform of the highest transformable
+// parent and concatenates it with the local transform of this node.
+// It stores the result in the worldTransform field and returns it.
+func (n *Node2D) GetWorldTransform() transform.Transform {
+	if !n.isDirty {
+		return n.worldTransform
+	}
+
+	world := transform.New(vector.New(0, 0), vector.New(0, 0), 0)
+
+	if n.parent != nil {
+		if pt, ok := n.parent.(transform.Transformable); ok {
+			world = pt.GetWorldTransform()
+		}
+	}
+
+	world.Concatenate(n.localTransform)
+	n.worldTransform = world
+	n.isDirty = false
+
+	return n.worldTransform
+}
+
+// Getters and setters for position, pivot, rotation, and scale
+
+func (n *Node2D) SetPosition(x, y float64)   { n.localTransform.SetPosition(x, y); n.MarkDirty() }
+func (n *Node2D) GetPosition() vector.Vector { return n.localTransform.Position() }
+func (n *Node2D) SetRotation(r float64)      { n.localTransform.SetRotation(r); n.MarkDirty() }
+func (n *Node2D) GetRotation() float64       { return n.localTransform.Rotation() }
+func (n *Node2D) SetScale(x, y float64)      { n.localTransform.SetScale(x, y); n.MarkDirty() }
+func (n *Node2D) GetScale() vector.Vector    { return n.localTransform.Scale() }
+func (n *Node2D) GetPivot() vector.Vector    { return n.localTransform.Pivot() }
+func (n *Node2D) SetPivot(x, y float64)      { n.localTransform.SetPivot(x, y); n.MarkDirty() }
+
+// GetWorldPosition returns the world-space position (convenience for collision etc.).
+func (n *Node2D) GetWorldPosition() vector.Vector {
+	wt := n.GetWorldTransform()
+	return wt.Position()
 }
