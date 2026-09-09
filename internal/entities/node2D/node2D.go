@@ -90,9 +90,9 @@ func (n *Node2D) SetTransform(t transform.Transform) {
 	n.MarkDirty()
 }
 
-// GetWorldTransform finds the world transform of the highest transformable
-// parent and concatenates it with the local transform of this node.
-// It stores the result in the worldTransform field and returns it.
+// GetWorldTransform the concatenated transform of the node and all
+// its parents up to the root of the scene graph. It is cached and
+// only recalculated when the node or any of its parents are marked dirty.
 func (n *Node2D) GetWorldTransform() transform.Transform {
 	if !n.isDirty {
 		return n.worldTransform
