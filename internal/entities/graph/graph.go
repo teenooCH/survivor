@@ -10,3 +10,12 @@ type Image interface {
 	// Dimensions returns the width and height in pixels.
 	Dimensions() (width, height float64)
 }
+
+// Drawable is the interface for any object that can be drawn on top of an image.
+type Drawable interface {
+	transform.Transformable
+	GetLayer() int
+	// Draw draws the image of thedrawable node on the
+	// given target image with the provided transform options.
+	Draw(target Image, options transform.Transform)
+}
