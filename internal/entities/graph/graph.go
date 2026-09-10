@@ -9,6 +9,7 @@ type Image interface {
 	DrawImage(image Image, options transform.Transform)
 	// Dimensions returns the width and height in pixels.
 	Dimensions() (width, height float64)
+	SetDimensions(width, height float64)
 }
 
 // Drawable is the interface for any object that can be drawn on top of an image.

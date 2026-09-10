@@ -35,11 +35,19 @@ type mockImage struct {
 }
 
 func newMockImage(w, h float64) *mockImage {
-	return &mockImage{w: w, h: h}
+	m := &mockImage{}
+	m.SetDimensions(w, h)
+
+	return m
 }
 
 func (m *mockImage) DrawImage(image graph.Image, options transform.Transform) {}
 
 func (m *mockImage) Dimensions() (width, height float64) {
 	return m.w, m.h // Example dimensions
+}
+
+func (m *mockImage) SetDimensions(width, height float64) {
+	m.w = width
+	m.h = height
 }
