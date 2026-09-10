@@ -12,9 +12,6 @@ type Node interface {
 	// GetName returns the name of the node.
 	GetName() string
 
-	// GetType returns the type of the node.
-	// GetType() string
-
 	// GetChildren returns the child nodes of the current node.
 	GetChildren() iter.Seq[Node]
 
