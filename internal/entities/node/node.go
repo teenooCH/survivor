@@ -2,6 +2,9 @@ package node
 
 import "iter"
 
+// Node is the interface for a node in a scene graph.
+// It provides methods for managing child nodes, parent nodes,
+// and marking the node as dirty.
 type Node interface {
 	// GetID returns the unique identifier of the node.
 	GetID() uint64

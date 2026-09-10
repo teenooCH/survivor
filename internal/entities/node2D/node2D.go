@@ -1,3 +1,4 @@
+// package node2D provides a basic node.Node implementation for a scene graph.
 package node2D
 
 import (
@@ -10,6 +11,7 @@ import (
 	"github.com/teenooCH/survivor/internal/entities/vector"
 )
 
+// Node2D implements the node.Node and the transform.Transformable interface.
 type Node2D struct {
 	id             uint64
 	name           string
@@ -22,6 +24,7 @@ type Node2D struct {
 
 var globalNodeID atomic.Uint64
 
+// New creates a new Node2D instance with the given name and a unique ID.
 func New(name string) *Node2D {
 	return &Node2D{
 		id:             globalNodeID.Add(1),
