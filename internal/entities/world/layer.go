@@ -4,7 +4,6 @@ import (
 	"slices"
 
 	"github.com/teenooCH/survivor/internal/entities/graph"
-	"github.com/teenooCH/survivor/internal/entities/transform"
 	"github.com/teenooCH/survivor/internal/pkg/stack"
 )
 
@@ -24,7 +23,7 @@ func newLayers(defaultLayerCount int) *layers {
 // addNode adds a node to the specified layer index.
 // If the layer does not exist, it is created.
 func (l *layers) addNode(layerIndex int, node graph.Drawable,
-	target graph.Image, op transform.Transform,
+	target graph.Image, op graph.DrawOpt,
 ) {
 	l.ensureLayers(layerIndex)
 

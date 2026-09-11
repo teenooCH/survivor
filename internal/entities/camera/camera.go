@@ -92,7 +92,7 @@ func (c *Camera) ApplyOffset(op *transform.Transform) {
 // DrawToScreen draws the camera surface to the screen.
 // It's not called Draw so it doesn't implement Drawable.
 func (c *Camera) DrawToScreen(screen graph.Image) {
-	screen.DrawImage(c.surface, transform.NewZero())
+	screen.DrawImage(c.surface, graph.DrawOpt{Transform: transform.NewZero()})
 }
 
 // GetWorldCoords converts screen coordinates (e.g. mouse) to world coordinates.

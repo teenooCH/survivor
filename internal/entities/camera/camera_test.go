@@ -7,7 +7,6 @@ import (
 	"github.com/teenooCH/survivor/internal/entities/camera"
 	"github.com/teenooCH/survivor/internal/entities/graph"
 	"github.com/teenooCH/survivor/internal/entities/node2D"
-	"github.com/teenooCH/survivor/internal/entities/transform"
 	"github.com/teenooCH/survivor/internal/entities/vector"
 )
 
@@ -87,7 +86,7 @@ func newMockImage(w, h float64) *mockImage {
 	return m
 }
 
-func (m *mockImage) DrawImage(image graph.Image, options transform.Transform) {}
+func (m *mockImage) DrawImage(_ graph.Image, _ graph.DrawOpt) {}
 
 func (m *mockImage) Dimensions() (width, height float64) {
 	return m.w, m.h // Example dimensions

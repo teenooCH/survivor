@@ -3,7 +3,6 @@ package sprite
 import (
 	"github.com/teenooCH/survivor/internal/entities/graph"
 	"github.com/teenooCH/survivor/internal/entities/node2D"
-	"github.com/teenooCH/survivor/internal/entities/transform"
 )
 
 type Sprite struct {
@@ -40,7 +39,7 @@ func (s *Sprite) SetLayer(layer int) { s.layer = layer }
 func (s *Sprite) IsVisible() bool         { return s.visible }
 func (s *Sprite) SetVisible(visible bool) { s.visible = visible }
 
-func (s *Sprite) Draw(target graph.Image, options transform.Transform) {
+func (s *Sprite) Draw(target graph.Image, options graph.DrawOpt) {
 	if s.texture == nil || !s.visible {
 		return
 	}

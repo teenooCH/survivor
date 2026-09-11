@@ -5,7 +5,6 @@ import (
 
 	"github.com/teenooCH/survivor/internal/entities/graph"
 	"github.com/teenooCH/survivor/internal/entities/sprite"
-	"github.com/teenooCH/survivor/internal/entities/transform"
 )
 
 func TestNew(t *testing.T) {
@@ -23,6 +22,7 @@ func TestNew(t *testing.T) {
 			got := sprite.New("test sprite", newMockImage(tt.width, tt.height), 0)
 
 			gotPosition := got.GetPivot()
+
 			if gotPosition.X() != tt.wantX || gotPosition.Y() != tt.wantY {
 				t.Errorf("New(): Got pivot position %v, want {%v %v}", got.GetPivot(), tt.wantX, tt.wantY)
 			}
@@ -41,7 +41,7 @@ func newMockImage(w, h float64) *mockImage {
 	return m
 }
 
-func (m *mockImage) DrawImage(image graph.Image, options transform.Transform) {}
+func (m *mockImage) DrawImage(_ graph.Image, _ graph.DrawOpt) {}
 
 func (m *mockImage) Dimensions() (width, height float64) {
 	return m.w, m.h // Example dimensions

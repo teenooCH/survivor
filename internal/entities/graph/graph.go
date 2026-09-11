@@ -6,7 +6,7 @@ import "github.com/teenooCH/survivor/internal/entities/transform"
 type Image interface {
 	// DrawImage draws the image on top the receiver image
 	// with the given options.
-	DrawImage(image Image, options transform.Transform)
+	DrawImage(image Image, options DrawOpt)
 	// Dimensions returns the width and height in pixels.
 	Dimensions() (width, height float64)
 	SetDimensions(width, height float64)
@@ -16,7 +16,12 @@ type Image interface {
 type Drawable interface {
 	transform.Transformable
 	GetLayer() int
-	// Draw draws the image of thedrawable node on the
-	// given target image with the provided transform options.
-	Draw(target Image, options transform.Transform)
+	// Draw draws the image of the Drawable node on the
+	// given target image with the provided options.
+	Draw(target Image, options DrawOpt)
+}
+
+// DrawOpt represents the options for DrawImage.
+type DrawOpt struct {
+	Transform transform.Transform
 }
