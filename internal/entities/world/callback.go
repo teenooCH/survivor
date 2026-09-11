@@ -13,10 +13,8 @@ type callbackStacks struct {
 	stacks []*stack.Stack[func()]
 }
 
-func newCallbackStack() *callbackStacks {
-	l := &callbackStacks{make([]*stack.Stack[func()], 0)}
-
-	return l
+func newCallbackStacks() *callbackStacks {
+	return &callbackStacks{make([]*stack.Stack[func()], 0)}
 }
 
 // addCallback adds a callback to the specified layer index.
