@@ -30,8 +30,8 @@ func New(name string) *Node2D {
 		id:             globalNodeID.Add(1),
 		name:           name,
 		children:       make([]node.Node, 0),
-		localTransform: transform.New(vector.New(0, 0), vector.New(0, 0), 0),
-		worldTransform: transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+		localTransform: transform.NewZero(),
+		worldTransform: transform.NewZero(),
 		isDirty:        true,
 	}
 }
@@ -101,7 +101,7 @@ func (n *Node2D) GetWorldTransform() transform.Transform {
 		return n.worldTransform
 	}
 
-	world := transform.New(vector.New(0, 0), vector.New(0, 0), 0)
+	world := transform.NewZero()
 
 	if n.parent != nil {
 		if pt, ok := n.parent.(transform.Transformable); ok {

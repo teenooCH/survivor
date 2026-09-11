@@ -41,6 +41,16 @@ func New(position, pivot vector.Vector, rotation float64) Transform {
 	}
 }
 
+// NewZero creates a transform with position (0, 0), pivot (0, 0), rotation 0, and scale (1, 1).
+func NewZero() Transform {
+	return Transform{
+		position: vector.New(0, 0),
+		pivot:    vector.New(0, 0),
+		rotation: 0,
+		scale:    vector.New(1, 1),
+	}
+}
+
 func (t *Transform) Position() vector.Vector { return t.position }
 func (t *Transform) Pivot() vector.Vector    { return t.pivot }
 func (t *Transform) Rotation() float64       { return t.rotation }

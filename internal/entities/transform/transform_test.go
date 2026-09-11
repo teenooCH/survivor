@@ -20,19 +20,19 @@ func TestTransform_Concatenate(t *testing.T) {
 	}{
 		{
 			name:  "All zero transforms",
-			tr:    transform.New(vector.New(0, 0), vector.New(0, 0), 0),
-			other: transform.New(vector.New(0, 0), vector.New(0, 0), 0),
-			want:  transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+			tr:    transform.NewZero(),
+			other: transform.NewZero(),
+			want:  transform.NewZero(),
 		},
 		{
 			name:  "tr at 0/0, other at 1/1",
-			tr:    transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+			tr:    transform.NewZero(),
 			other: transform.New(vector.New(1, 1), vector.New(0, 0), 0),
 			want:  transform.New(vector.New(1, 1), vector.New(0, 0), 0),
 		},
 		{
 			name:      "tr scaled to 2/2",
-			tr:        transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+			tr:        transform.NewZero(),
 			trScale:   vector.New(2, 2),
 			other:     transform.New(vector.New(1, 1), vector.New(0, 0), 0),
 			want:      transform.New(vector.New(2, 2), vector.New(0, 0), 0),
@@ -46,13 +46,13 @@ func TestTransform_Concatenate(t *testing.T) {
 		},
 		{
 			name:  "rotate other by 90 degrees",
-			tr:    transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+			tr:    transform.NewZero(),
 			other: transform.New(vector.New(1, 0), vector.New(0, 0), math.Pi/2),
 			want:  transform.New(vector.New(1, 0), vector.New(0, 0), math.Pi/2),
 		},
 		{
 			name:  "tr at 0/0, other pivot at 1/1",
-			tr:    transform.New(vector.New(0, 0), vector.New(0, 0), 0),
+			tr:    transform.NewZero(),
 			other: transform.New(vector.New(0, 0), vector.New(1, 1), 0),
 			want:  transform.New(vector.New(0, 0), vector.New(1, 1), 0),
 		},
