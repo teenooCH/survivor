@@ -7,36 +7,40 @@ import (
 	"github.com/teenooCH/survivor/internal/pkg/stack"
 )
 
-// layers manages draw order: lower layer index are drawn first (background).
+// callbackStacks manages draw order: lower layer index are drawn first (background).
 // Within a layer, nodes are drawn in LIFO order (last pushed = drawn first).
-type layers struct {
-	layers []*stack.Stack[func()]
+type callbackStacks struct {
+	stacks []*stack.Stack[func()]
 }
 
-func newLayers(defaultLayerCount int) *layers {
-	l := &layers{make([]*stack.Stack[func()], 0, defaultLayerCount)}
-	l.ensureLayers(defaultLayerCount)
+func newCallbackStack() *callbackStacks {
+	l := &callbackStacks{make([]*stack.Stack[func()], 0)}
 
 	return l
 }
 
-// addNode adds a node to the specified layer index.
+// addCallback adds a callback to the specified layer index.
+// The callback will draw the node on the target image
+// with the specified draw options.
 // If the layer does not exist, it is created.
-func (l *layers) addNode(layerIndex int, node graph.Drawable,
+func (cb *callbackStacks) addCallback(layerIndex int, node graph.Drawable,
 	target graph.Image, op graph.DrawOpt,
 ) {
-	l.ensureLayers(layerIndex)
+	if layerIndex >= len(cb.stacks) {
+		cb.addLayers(layerIndex)
+	}
 
 	f := func() {
 		node.Draw(target, op)
 	}
-	l.layers[layerIndex].Push(f)
+	cb.stacks[layerIndex].Push(f)
 }
 
-// drawAll draws all layers in order, from lowest to highest index.
+// drawAll executes all callbacks in order, from lowest to highest layer index.
 // Within a layer, nodes are drawn in LIFO order (last pushed = drawn first).
-func (l *layers) drawAll() {
-	for layer := range slices.Values(l.layers) {
+// NB: After drawAll is called, all callbacks are removed from the stacks.
+func (cb *callbackStacks) drawAll() {
+	for layer := range slices.Values(cb.stacks) {
 		for !layer.IsEmpty() {
 			if f, ok := layer.Pop(); ok {
 				f()
@@ -45,9 +49,9 @@ func (l *layers) drawAll() {
 	}
 }
 
-// ensureLayers ensures that the layers slice has at least idx+1 layers.
-func (l *layers) ensureLayers(idx int) {
-	for idx >= len(l.layers) {
-		l.layers = append(l.layers, stack.New[func()]())
+// addLayers ensures that the callback slice has at least idx+1 layers.
+func (cb *callbackStacks) addLayers(idx int) {
+	for idx >= len(cb.stacks) {
+		cb.stacks = append(cb.stacks, stack.New[func()]())
 	}
 }
