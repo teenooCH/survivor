@@ -83,10 +83,10 @@ func (c *Camera) Shake(magnitude float64) {
 	}
 }
 
-// ApplyOffset modifies op so world coords are drawn relative to camera position.
-func (c *Camera) ApplyOffset(op *transform.Transform) {
+// ApplyOffset modifies tr so world coords are drawn relative to camera position.
+func (c *Camera) ApplyOffset(tr *transform.Transform) {
 	pos := c.GetPosition()
-	op.Translate(-pos.X(), -pos.Y())
+	tr.Translate(-pos.X(), -pos.Y())
 }
 
 // DrawToScreen draws the camera surface to the screen.
