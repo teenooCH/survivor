@@ -1,12 +1,15 @@
 package world
 
 import (
+	"iter"
+	"slices"
 	"strconv"
 
 	"github.com/teenooCH/survivor/internal/entities/camera"
 	"github.com/teenooCH/survivor/internal/entities/graph"
 	"github.com/teenooCH/survivor/internal/entities/node"
 	"github.com/teenooCH/survivor/internal/entities/node2D"
+	"github.com/teenooCH/survivor/internal/entities/transform"
 )
 
 type World struct {
@@ -26,6 +29,8 @@ func NewWorld(surface graph.Image) *World {
 	}
 }
 
+// AddNode adds a node to the specified layer.
+// If the layer does not exist, it will be created.
 func (w *World) AddNode(layerIndex int, n node.Node) {
 	if layerIndex >= len(w.layerRoots) {
 		w.addLayerRoots(layerIndex)
@@ -42,6 +47,7 @@ func (w *World) addLayerRoots(layerIndex int) {
 	}
 }
 
+// RemoveNode removes the specified node from its parent.
 func (w *World) RemoveNode(n node.Node) bool {
 	parent := n.GetParent()
 	if parent == nil {
@@ -55,4 +61,92 @@ func (w *World) RemoveNode(n node.Node) bool {
 	n.AttachParent(nil)
 
 	return true
+}
+
+func (w *World) Update() {
+	// I don't know yet what this function should do
+}
+
+// Draw renders the world to the target image.
+// It prepares the draw callbacks for all drawable nodes and
+// executes them in the correct order.
+func (w *World) Draw(target graph.Image) {
+	w.camera.Update()
+
+	for i, layerRoot := range w.layerRoots {
+		w.prepareCallbacks(layerRoot, i, target)
+	}
+
+	w.callbacks.excecuteAll()
+	w.camera.DrawToScreen(target)
+}
+
+// prepare the callbacks for the given node and its children recursively.
+// The callbacks are added to the appropriate layer in the callback stack.
+func (w *World) prepareCallbacks(node node.Node, layerIndex int, target graph.Image) {
+	for child := range sortByLayer(node.GetChildren()) {
+		w.prepareCallbacks(child, layerIndex, target)
+	}
+
+	if drawable, ok := node.(graph.Drawable); ok {
+		tr := prepareTransform(drawable)
+		w.camera.ApplyOffset(&tr)
+		op := graph.DrawOpt{Transform: tr}
+		f := func() {
+			drawable.Draw(target, op)
+		}
+		w.callbacks.addCallback(layerIndex, f)
+	}
+}
+
+// Remove non-drawable nodes and sort the remaining nodes
+// by their layer in descending order.
+func sortByLayer(children iter.Seq[node.Node]) iter.Seq[node.Node] {
+	getLayer := func(n node.Node) int {
+		if d, ok := n.(graph.Drawable); ok {
+			return d.GetLayer()
+		}
+
+		return 0
+	}
+
+	ch := slices.Collect(children)
+
+	// filter out non-drawable nodes
+	ch = slices.DeleteFunc(ch, func(n node.Node) bool {
+		if _, ok := n.(graph.Drawable); !ok {
+			return true
+		}
+
+		return false
+	})
+
+	slices.SortFunc(ch, func(a, b node.Node) int {
+		return getLayer(b) - getLayer(a)
+	})
+
+	return slices.Values(ch)
+}
+
+// prepareTransform calculates and returns the
+// transformation for the given drawable.
+// Move pivot to the origin, apply scale and rotation,
+// then move to the world position.
+func prepareTransform(d graph.Drawable) transform.Transform {
+	op := transform.NewZero()
+
+	if tr, ok := d.(transform.Transformable); ok {
+		wt := tr.GetWorldTransform()
+		pivot := wt.Pivot()
+		pos := wt.Position()
+		scale := wt.Scale()
+		rot := wt.Rotation()
+
+		op.Translate(-pivot.X(), -pivot.Y())
+		op.SetScale(scale.X(), scale.Y())
+		op.Rotate(rot)
+		op.Translate(pos.X(), pos.Y())
+	}
+
+	return op
 }

@@ -3,12 +3,11 @@ package world
 import (
 	"slices"
 
-	"github.com/teenooCH/survivor/internal/entities/graph"
 	"github.com/teenooCH/survivor/internal/pkg/stack"
 )
 
-// callbackStacks manages draw order: lower layer index are drawn first (background).
-// Within a layer, nodes are drawn in LIFO order (last pushed = drawn first).
+// callbackStacks is a helper structure that manages the draw callbacks for different layers.
+// See executeAll() for the order in which callbacks are executed.
 type callbackStacks struct {
 	stacks []*stack.Stack[func()]
 }
@@ -18,26 +17,19 @@ func newCallbackStacks() *callbackStacks {
 }
 
 // addCallback adds a callback to the specified layer index.
-// The callback will draw the node on the target image
-// with the specified draw options.
 // If the layer does not exist, it is created.
-func (cb *callbackStacks) addCallback(layerIndex int, node graph.Drawable,
-	target graph.Image, op graph.DrawOpt,
-) {
+func (cb *callbackStacks) addCallback(layerIndex int, f func()) {
 	if layerIndex >= len(cb.stacks) {
 		cb.addLayers(layerIndex)
 	}
 
-	f := func() {
-		node.Draw(target, op)
-	}
 	cb.stacks[layerIndex].Push(f)
 }
 
-// drawAll executes all callbacks in order, from lowest to highest layer index.
-// Within a layer, nodes are drawn in LIFO order (last pushed = drawn first).
-// NB: After drawAll is called, all callbacks are removed from the stacks.
-func (cb *callbackStacks) drawAll() {
+// excecuteAll executes all callbacks in order, from lowest to highest layer index.
+// Within a layer, functions are executed in LIFO order (last pushed = executed first).
+// NB: After excecuteAll was called, all stacks are empty.
+func (cb *callbackStacks) excecuteAll() {
 	for layer := range slices.Values(cb.stacks) {
 		for !layer.IsEmpty() {
 			if f, ok := layer.Pop(); ok {
