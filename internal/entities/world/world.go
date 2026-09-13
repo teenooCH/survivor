@@ -9,11 +9,11 @@ import (
 	"slices"
 	"strconv"
 
-	"github.com/teenooCH/survivor/internal/entities/camera"
-	"github.com/teenooCH/survivor/internal/entities/graph"
-	"github.com/teenooCH/survivor/internal/entities/node"
-	"github.com/teenooCH/survivor/internal/entities/node2D"
-	"github.com/teenooCH/survivor/internal/entities/transform"
+	"survivor/internal/entities/camera"
+	"survivor/internal/entities/graph"
+	"survivor/internal/entities/node"
+	"survivor/internal/entities/node2D"
+	"survivor/internal/entities/transform"
 )
 
 type World struct {

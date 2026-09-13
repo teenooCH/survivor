@@ -6,9 +6,9 @@ package camera
 import (
 	"math/rand/v2"
 
-	"github.com/teenooCH/survivor/internal/entities/graph"
-	"github.com/teenooCH/survivor/internal/entities/node2D"
-	"github.com/teenooCH/survivor/internal/entities/transform"
+	"survivor/internal/entities/graph"
+	"survivor/internal/entities/node2D"
+	"survivor/internal/entities/transform"
 )
 
 // Camera provides a viewport into the world and can follow a transformable Node.

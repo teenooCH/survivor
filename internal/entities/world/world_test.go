@@ -3,10 +3,10 @@ package world_test
 import (
 	"testing"
 
-	"github.com/teenooCH/survivor/internal/entities/graph"
-	"github.com/teenooCH/survivor/internal/entities/node2D"
-	"github.com/teenooCH/survivor/internal/entities/transform"
-	"github.com/teenooCH/survivor/internal/entities/world"
+	"survivor/internal/entities/graph"
+	"survivor/internal/entities/node2D"
+	"survivor/internal/entities/transform"
+	"survivor/internal/entities/world"
 )
 
 // fakeImage is a minimal graph.Image used as the draw target in tests.

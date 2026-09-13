@@ -4,10 +4,10 @@ import (
 	"math"
 	"testing"
 
-	"github.com/teenooCH/survivor/internal/entities/camera"
-	"github.com/teenooCH/survivor/internal/entities/graph"
-	"github.com/teenooCH/survivor/internal/entities/node2D"
-	"github.com/teenooCH/survivor/internal/entities/vector"
+	"survivor/internal/entities/camera"
+	"survivor/internal/entities/graph"
+	"survivor/internal/entities/node2D"
+	"survivor/internal/entities/vector"
 )
 
 func TestCamera_Update_FollowTheNode(t *testing.T) {

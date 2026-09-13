@@ -1,6 +1,6 @@
 package graph
 
-import "github.com/teenooCH/survivor/internal/entities/transform"
+import "survivor/internal/entities/transform"
 
 // Image is the interface for any image that can be drawn on top of another image.
 type Image interface {

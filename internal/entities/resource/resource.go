@@ -1,6 +1,6 @@
 package resource
 
-import "github.com/teenooCH/survivor/internal/entities/graph"
+import "survivor/internal/entities/graph"
 
 type Manager interface {
 	// LoadTexture loads a texture from the specified path and

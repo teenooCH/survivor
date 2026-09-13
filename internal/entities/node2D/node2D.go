@@ -6,9 +6,9 @@ import (
 	"slices"
 	"sync/atomic"
 
-	"github.com/teenooCH/survivor/internal/entities/node"
-	"github.com/teenooCH/survivor/internal/entities/transform"
-	"github.com/teenooCH/survivor/internal/entities/vector"
+	"survivor/internal/entities/node"
+	"survivor/internal/entities/transform"
+	"survivor/internal/entities/vector"
 )
 
 // Node2D implements the node.Node and the transform.Transformable interface.

@@ -4,7 +4,7 @@ import (
 	"math"
 	"testing"
 
-	"github.com/teenooCH/survivor/internal/entities/vector"
+	"survivor/internal/entities/vector"
 )
 
 func TestVector2D_Rotate(t *testing.T) {

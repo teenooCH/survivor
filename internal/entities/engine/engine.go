@@ -1,11 +1,11 @@
 package engine
 
 import (
-	"github.com/teenooCH/survivor/internal/entities/collision"
-	"github.com/teenooCH/survivor/internal/entities/graph"
-	"github.com/teenooCH/survivor/internal/entities/input"
-	"github.com/teenooCH/survivor/internal/entities/world"
-	"github.com/teenooCH/survivor/internal/resource"
+	"survivor/internal/entities/collision"
+	"survivor/internal/entities/graph"
+	"survivor/internal/entities/input"
+	"survivor/internal/entities/resource"
+	"survivor/internal/entities/world"
 )
 
 type Engine struct {

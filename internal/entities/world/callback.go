@@ -3,7 +3,7 @@ package world
 import (
 	"slices"
 
-	"github.com/teenooCH/survivor/internal/pkg/stack"
+	"survivor/internal/pkg/stack"
 )
 
 // callbackStacks is a helper structure that manages the draw callbacks for different layers.

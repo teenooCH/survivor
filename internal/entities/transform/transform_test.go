@@ -4,8 +4,8 @@ import (
 	"math"
 	"testing"
 
-	"github.com/teenooCH/survivor/internal/entities/transform"
-	"github.com/teenooCH/survivor/internal/entities/vector"
+	"survivor/internal/entities/transform"
+	"survivor/internal/entities/vector"
 )
 
 func TestTransform_Concatenate(t *testing.T) {
