@@ -1,3 +1,7 @@
+// Package world owns the scene graph and camera for the game world.
+// It manages the scene graph and also provides a layer-based rendering system.
+// The Draw method handles rendering the world by preparing and executing
+// draw callbacks for all drawable nodes.
 package world
 
 import (
@@ -16,8 +20,6 @@ type World struct {
 	rootNode   node.Node
 	layerRoots []node.Node
 	camera     *camera.Camera
-
-	callbacks *callbackStacks
 }
 
 func NewWorld(surface graph.Image) *World {
@@ -25,7 +27,6 @@ func NewWorld(surface graph.Image) *World {
 		rootNode:   node2D.New("root"),
 		layerRoots: make([]node.Node, 0),
 		camera:     camera.New(surface),
-		callbacks:  newCallbackStacks(),
 	}
 }
 
@@ -73,29 +74,32 @@ func (w *World) Update() {
 func (w *World) Draw(target graph.Image) {
 	w.camera.Update()
 
+	cb := newCallbackStacks()
 	for i, layerRoot := range w.layerRoots {
-		w.prepareCallbacks(layerRoot, i, target)
+		prepareCallbacks(cb, w.camera, layerRoot, i, target)
 	}
 
-	w.callbacks.excecuteAll()
+	cb.excecuteAll()
 	w.camera.DrawToScreen(target)
 }
 
 // prepare the callbacks for the given node and its children recursively.
 // The callbacks are added to the appropriate layer in the callback stack.
-func (w *World) prepareCallbacks(node node.Node, layerIndex int, target graph.Image) {
+func prepareCallbacks(cb *callbackStacks, camera *camera.Camera,
+	node node.Node, layerIndex int, target graph.Image,
+) {
 	for child := range sortByLayer(node.GetChildren()) {
-		w.prepareCallbacks(child, layerIndex, target)
+		prepareCallbacks(cb, camera, child, layerIndex, target)
 	}
 
 	if drawable, ok := node.(graph.Drawable); ok {
 		tr := prepareTransform(drawable)
-		w.camera.ApplyOffset(&tr)
+		camera.ApplyOffset(&tr)
 		op := graph.DrawOpt{Transform: tr}
 		f := func() {
 			drawable.Draw(target, op)
 		}
-		w.callbacks.addCallback(layerIndex, f)
+		cb.addCallback(layerIndex, f)
 	}
 }
 
