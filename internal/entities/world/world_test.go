@@ -37,7 +37,7 @@ func (d *drawableNode) Draw(target graph.Image, options graph.DrawOpt) {
 func TestWorldDrawOnlyDrawsDrawableNodesInLayerOrder(t *testing.T) {
 	var order []string
 
-	w := world.NewWorld(fakeImage{})
+	w := world.New(fakeImage{})
 
 	// worldLayer 0: two drawable nodes with different GetLayer values plus a non-drawable node.
 	nodeHigh := newDrawableNode("high", 5, &order)
@@ -69,7 +69,7 @@ func TestWorldDrawOnlyDrawsDrawableNodesInLayerOrder(t *testing.T) {
 func TestWorldDrawSkipsNonDrawableNodes(t *testing.T) {
 	var order []string
 
-	w := world.NewWorld(fakeImage{})
+	w := world.New(fakeImage{})
 
 	nonDrawable := node2D.New("plain")
 	w.AddNode(0, nonDrawable)

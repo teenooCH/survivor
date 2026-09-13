@@ -22,7 +22,7 @@ type World struct {
 	camera     *camera.Camera
 }
 
-func NewWorld(surface graph.Image) *World {
+func New(surface graph.Image) *World {
 	return &World{
 		rootNode:   node2D.New("root"),
 		layerRoots: make([]node.Node, 0),
