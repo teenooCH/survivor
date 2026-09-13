@@ -28,3 +28,7 @@ func NewPlayer(engine *engine.Engine) *Player {
 
 	return p
 }
+
+// Sprite returns the player's sprite node so it can be registered
+// with the world for rendering.
+func (p *Player) Sprite() *sprite.Sprite { return p.sprite }
