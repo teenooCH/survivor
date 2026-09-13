@@ -1,3 +1,3 @@
-module github.com/teenooCH/survivor
+module survivor
 
 go 1.27.0
