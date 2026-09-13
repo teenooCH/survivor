@@ -1,10 +1,10 @@
 package engine
 
 import (
-	"github.com/teenooCH/survivor/internal/collision"
+	"github.com/teenooCH/survivor/internal/entities/collision"
 	"github.com/teenooCH/survivor/internal/entities/graph"
+	"github.com/teenooCH/survivor/internal/entities/input"
 	"github.com/teenooCH/survivor/internal/entities/world"
-	"github.com/teenooCH/survivor/internal/input"
 	"github.com/teenooCH/survivor/internal/resource"
 )
 
