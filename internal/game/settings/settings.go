@@ -9,3 +9,10 @@ const (
 const (
 	PlayerName = "player"
 )
+
+// Settings for the player character.
+const (
+	PlayerInitialHP    = 100.0
+	PlayerInitialXP    = 0
+	PlayerInitialLevel = 1
+)

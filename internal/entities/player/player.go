@@ -2,31 +2,27 @@ package player
 
 import (
 	"survivor/internal/entities/node2D"
-	"survivor/internal/entities/sprite"
-	"survivor/internal/game/engine"
-	"survivor/internal/game/settings"
 )
 
 type Player struct {
 	node2D.Node2D
-	sprite *sprite.Sprite
-	engine *engine.Engine
+	hp    float64
+	xp    int
+	level int
 }
 
-func NewPlayer(engine *engine.Engine) *Player {
+func New(name string) *Player {
 	p := &Player{
-		Node2D: *node2D.New(settings.PlayerName),
-		engine: engine,
+		Node2D: *node2D.New(name),
 	}
-	p.SetPosition(0, 0)
-
-	tex, _ := engine.ResourceManager().GetTexture(settings.PlayerTexture)
-	sprite := sprite.New("", tex, 0)
-
-	p.AddChild(sprite)
-	p.sprite = sprite
-
-	p.engine.World().AddNode(0, p)
 
 	return p
 }
+
+func (p *Player) HP() float64 { return p.hp }
+func (p *Player) XP() int     { return p.xp }
+func (p *Player) Level() int  { return p.level }
+
+func (p *Player) SetHP(hp float64)   { p.hp = hp }
+func (p *Player) SetXP(xp int)       { p.xp = xp }
+func (p *Player) SetLevel(level int) { p.level = level }
