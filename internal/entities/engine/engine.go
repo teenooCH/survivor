@@ -4,8 +4,8 @@ import (
 	"survivor/internal/entities/collision"
 	"survivor/internal/entities/graph"
 	"survivor/internal/entities/input"
-	"survivor/internal/entities/resource"
 	"survivor/internal/entities/world"
+	"survivor/internal/game/resource"
 )
 
 type Engine struct {
