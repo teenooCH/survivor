@@ -1,6 +1,6 @@
 // Package world owns the scene graph and camera for the game world.
-// It manages the scene graph and also provides a layer-based rendering system.
-// The Draw method handles rendering the world by preparing and executing
+// It manages the scene graph and also provides a layer-based draw system.
+// The Draw method handles drawing the scene graph by preparing and executing
 // draw callbacks for all drawable nodes.
 package world
 
@@ -68,7 +68,7 @@ func (w *World) Update() {
 	// I don't know yet what this function should do
 }
 
-// Draw renders the world to the target image.
+// Draw draws the world scene graph onto the target image.
 // It prepares the draw callbacks for all drawable nodes and
 // executes them in the correct order.
 func (w *World) Draw(target graph.Image) {
