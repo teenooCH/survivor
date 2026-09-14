@@ -32,7 +32,7 @@ func New(surface graph.Image) *World {
 
 // AddNode adds a node to the specified layer.
 // If the layer does not exist, it will be created.
-func (w *World) AddNode(layerIndex int, n node.Node) {
+func (w *World) AddNode(n node.Node, layerIndex int) {
 	if layerIndex >= len(w.layerRoots) {
 		w.addLayerRoots(layerIndex)
 	}

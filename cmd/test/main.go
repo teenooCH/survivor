@@ -117,7 +117,7 @@ func main() {
 
 	p := game.CreatePlayer(settings.PlayerName, eng, 0)
 	p.SetPosition(screenWidth/2, screenHeight/2)
-	eng.World().AddNode(0, p)
+	eng.World().AddNode(p, 0)
 
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Survivor - Player Draw Test")

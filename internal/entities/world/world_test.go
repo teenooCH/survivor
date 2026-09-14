@@ -48,11 +48,11 @@ func TestWorldDrawOnlyDrawsDrawableNodesInLayerOrder(t *testing.T) {
 	root.AddChild(nonDrawable)
 	root.AddChild(nodeHigh)
 
-	w.AddNode(0, root)
+	w.AddNode(root, 0)
 
 	// worldLayer 1: a single drawable node, must be drawn after everything in worldLayer 0.
 	nodeTop := newDrawableNode("top", 0, &order)
-	w.AddNode(1, nodeTop)
+	w.AddNode(nodeTop, 1)
 
 	w.Draw(fakeImage{})
 
@@ -74,7 +74,7 @@ func TestWorldDrawSkipsNonDrawableNodes(t *testing.T) {
 	w := world.New(fakeImage{})
 
 	nonDrawable := node2D.New("plain")
-	w.AddNode(0, nonDrawable)
+	w.AddNode(nonDrawable, 0)
 
 	w.Draw(fakeImage{})
 

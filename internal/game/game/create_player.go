@@ -22,7 +22,7 @@ func CreatePlayer(name string, engine *engine.Engine, layer int) *player.Player 
 	p.SetXP(settings.PlayerInitialXP)
 	p.SetLevel(settings.PlayerInitialLevel)
 
-	engine.World().AddNode(layer, p)
+	engine.World().AddNode(p, layer)
 
 	return p
 }
