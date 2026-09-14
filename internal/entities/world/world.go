@@ -103,8 +103,7 @@ func prepareCallbacks(cb *callbackStacks, camera *camera.Camera,
 	}
 }
 
-// Remove non-drawable nodes and sort the remaining nodes
-// by their layer in descending order.
+// Sort the nodes by their layer in descending order.
 func sortByLayer(children iter.Seq[node.Node]) iter.Seq[node.Node] {
 	getLayer := func(n node.Node) int {
 		if d, ok := n.(graph.Drawable); ok {
@@ -115,16 +114,6 @@ func sortByLayer(children iter.Seq[node.Node]) iter.Seq[node.Node] {
 	}
 
 	ch := slices.Collect(children)
-
-	// filter out non-drawable nodes
-	ch = slices.DeleteFunc(ch, func(n node.Node) bool {
-		if _, ok := n.(graph.Drawable); !ok {
-			return true
-		}
-
-		return false
-	})
-
 	slices.SortFunc(ch, func(a, b node.Node) int {
 		return getLayer(b) - getLayer(a)
 	})

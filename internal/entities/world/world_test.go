@@ -43,10 +43,12 @@ func TestWorldDrawOnlyDrawsDrawableNodesInLayerOrder(t *testing.T) {
 	nodeHigh := newDrawableNode("high", 5, &order)
 	nodeLow := newDrawableNode("low", 1, &order)
 	nonDrawable := node2D.New("plain")
+	root := node2D.New("root")
+	root.AddChild(nodeLow)
+	root.AddChild(nonDrawable)
+	root.AddChild(nodeHigh)
 
-	w.AddNode(0, nodeLow)
-	w.AddNode(0, nodeHigh)
-	w.AddNode(0, nonDrawable)
+	w.AddNode(0, root)
 
 	// worldLayer 1: a single drawable node, must be drawn after everything in worldLayer 0.
 	nodeTop := newDrawableNode("top", 0, &order)
