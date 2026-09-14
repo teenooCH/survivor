@@ -12,8 +12,8 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 
 	"survivor/internal/entities/graph"
-	"survivor/internal/entities/player"
 	"survivor/internal/game/engine"
+	"survivor/internal/game/game"
 	"survivor/internal/game/settings"
 	"survivor/internal/infrastructure/assets"
 )
@@ -88,21 +88,21 @@ func (m *textureManager) GetTexture(name string) (graph.Image, bool) {
 	return tex, ok
 }
 
-// game implements ebiten.Game and drives the survivor engine.
-type game struct {
+// ebGame implements ebiten.Game and drives the survivor engine.
+type ebGame struct {
 	engine *engine.Engine
 }
 
-func (g *game) Update() error {
+func (g *ebGame) Update() error {
 	g.engine.Update()
 	return nil
 }
 
-func (g *game) Draw(screen *ebiten.Image) {
+func (g *ebGame) Draw(screen *ebiten.Image) {
 	g.engine.Draw(newEbitenImage(screen))
 }
 
-func (g *game) Layout(outsideWidth, outsideHeight int) (int, int) {
+func (g *ebGame) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return screenWidth, screenHeight
 }
 
@@ -115,14 +115,14 @@ func main() {
 	surface := newEbitenImage(ebiten.NewImage(screenWidth, screenHeight))
 	eng := engine.New(surface, textures)
 
-	p := player.NewPlayer(eng)
+	p := game.CreatePlayer(settings.PlayerName, eng, 0)
 	p.SetPosition(screenWidth/2, screenHeight/2)
 	eng.World().AddNode(0, p)
 
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Survivor - Player Draw Test")
 
-	if err := ebiten.RunGame(&game{engine: eng}); err != nil {
+	if err := ebiten.RunGame(&ebGame{engine: eng}); err != nil {
 		log.Fatal(err)
 	}
 }
