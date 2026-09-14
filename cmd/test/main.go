@@ -13,7 +13,7 @@ import (
 
 	"survivor/internal/entities/engine"
 	"survivor/internal/entities/graph"
-	"survivor/internal/game/player"
+	"survivor/internal/entities/player"
 	"survivor/internal/game/settings"
 	"survivor/internal/infrastructure/assets"
 )
