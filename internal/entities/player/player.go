@@ -1,9 +1,9 @@
 package player
 
 import (
-	"survivor/internal/entities/engine"
 	"survivor/internal/entities/node2D"
 	"survivor/internal/entities/sprite"
+	"survivor/internal/game/engine"
 	"survivor/internal/game/settings"
 )
 
