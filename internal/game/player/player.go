@@ -26,9 +26,7 @@ func NewPlayer(engine *engine.Engine) *Player {
 	p.AddChild(sprite)
 	p.sprite = sprite
 
+	p.engine.World().AddNode(0, p)
+
 	return p
 }
-
-// Sprite returns the player's sprite node so it can be registered
-// with the world for rendering.
-func (p *Player) Sprite() *sprite.Sprite { return p.sprite }
