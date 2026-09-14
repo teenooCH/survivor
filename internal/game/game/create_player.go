@@ -1,6 +1,5 @@
 package game
 
-// Use case for creating a new player in the game.
 import (
 	"fmt"
 
@@ -9,6 +8,8 @@ import (
 	"survivor/internal/game/engine"
 	"survivor/internal/game/settings"
 )
+
+// Use case for creating a new player in the game.
 
 func CreatePlayer(name string, engine *engine.Engine, layer int) *player.Player {
 	p := player.New(settings.PlayerName)
