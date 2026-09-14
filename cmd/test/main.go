@@ -11,11 +11,11 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 
-	"survivor/assets"
 	"survivor/internal/entities/engine"
 	"survivor/internal/entities/graph"
 	"survivor/internal/game/player"
 	"survivor/internal/game/settings"
+	"survivor/internal/infrastructure/assets"
 )
 
 const (

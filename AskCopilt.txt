@@ -1,0 +1,8 @@
+please review the survivor project. I'd like to know if the architecture is
+in the sense of Clean Architecture.
+The entities directory contains the innermost layer with the most stable components.
+The game directory contains the game logic (aka Use Cases).
+I want to know if the interfaces (graph, node, resource) are at the right place 
+or should be place further out in the hirachy.
+If there are more insights please let me know.
+No code changes at the moment.
