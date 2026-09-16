@@ -11,11 +11,11 @@ import (
 type Engine struct {
 	world     *world.World
 	input     *input.Manager
-	resource  resource.Manager
+	resource  *resource.Manager
 	collision *collision.Manager
 }
 
-func New(surface graph.Image, rm resource.Manager) *Engine {
+func New(surface graph.Image, rm *resource.Manager) *Engine {
 	return &Engine{
 		world:     world.New(surface),
 		input:     input.NewManager(),
@@ -25,7 +25,7 @@ func New(surface graph.Image, rm resource.Manager) *Engine {
 }
 func (e *Engine) World() *world.World                  { return e.world }
 func (e *Engine) InputManager() *input.Manager         { return e.input }
-func (e *Engine) ResourceManager() resource.Manager    { return e.resource }
+func (e *Engine) ResourceManager() *resource.Manager   { return e.resource }
 func (e *Engine) CollisionManager() *collision.Manager { return e.collision }
 
 func (e *Engine) Update() {
