@@ -3,8 +3,8 @@ package sprite_test
 import (
 	"testing"
 
-	"survivor/internal/entities/graph"
-	"survivor/internal/entities/sprite"
+	"survivor/internal/domain/graph"
+	"survivor/internal/domain/sprite"
 )
 
 func TestNew(t *testing.T) {

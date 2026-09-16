@@ -1,6 +1,6 @@
 package resource
 
-import "survivor/internal/entities/graph"
+import "survivor/internal/domain/graph"
 
 type Manager interface {
 	// LoadTexture loads a texture from the specified path and

@@ -1,8 +1,8 @@
 package sprite
 
 import (
-	"survivor/internal/entities/graph"
-	"survivor/internal/entities/node2D"
+	"survivor/internal/domain/graph"
+	"survivor/internal/domain/node2D"
 )
 
 type Sprite struct {

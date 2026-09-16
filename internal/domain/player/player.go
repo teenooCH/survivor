@@ -1,7 +1,7 @@
 package player
 
 import (
-	"survivor/internal/entities/node2D"
+	"survivor/internal/domain/node2D"
 )
 
 type Player struct {

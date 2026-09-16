@@ -9,11 +9,11 @@ import (
 	"slices"
 	"strconv"
 
-	"survivor/internal/entities/camera"
-	"survivor/internal/entities/graph"
-	"survivor/internal/entities/node"
-	"survivor/internal/entities/node2D"
-	"survivor/internal/entities/transform"
+	"survivor/internal/domain/camera"
+	"survivor/internal/domain/graph"
+	"survivor/internal/domain/node"
+	"survivor/internal/domain/node2D"
+	"survivor/internal/domain/transform"
 )
 
 type World struct {

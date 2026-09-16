@@ -1,6 +1,6 @@
 package transform
 
-import "survivor/internal/entities/vector"
+import "survivor/internal/domain/vector"
 
 // Transformanble ist the interface for any node that has a transform.
 type Transformable interface {

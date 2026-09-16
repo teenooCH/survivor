@@ -4,10 +4,10 @@ import (
 	"math"
 	"testing"
 
-	"survivor/internal/entities/camera"
-	"survivor/internal/entities/graph"
-	"survivor/internal/entities/node2D"
-	"survivor/internal/entities/vector"
+	"survivor/internal/domain/camera"
+	"survivor/internal/domain/graph"
+	"survivor/internal/domain/node2D"
+	"survivor/internal/domain/vector"
 )
 
 func TestCamera_Update_FollowTheNode(t *testing.T) {

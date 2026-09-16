@@ -3,9 +3,9 @@ package node2D_test
 import (
 	"testing"
 
-	"survivor/internal/entities/node2D"
-	"survivor/internal/entities/transform"
-	"survivor/internal/entities/vector"
+	"survivor/internal/domain/node2D"
+	"survivor/internal/domain/transform"
+	"survivor/internal/domain/vector"
 )
 
 func TestNode2D_GetWorldTransform(t *testing.T) {

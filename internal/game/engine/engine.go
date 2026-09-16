@@ -1,10 +1,10 @@
 package engine
 
 import (
-	"survivor/internal/entities/collision"
-	"survivor/internal/entities/graph"
-	"survivor/internal/entities/input"
-	"survivor/internal/entities/world"
+	"survivor/internal/domain/collision"
+	"survivor/internal/domain/graph"
+	"survivor/internal/domain/input"
+	"survivor/internal/domain/world"
 	"survivor/internal/game/resource"
 )
 

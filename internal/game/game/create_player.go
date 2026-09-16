@@ -3,8 +3,8 @@ package game
 import (
 	"fmt"
 
-	"survivor/internal/entities/player"
-	"survivor/internal/entities/sprite"
+	"survivor/internal/domain/player"
+	"survivor/internal/domain/sprite"
 	"survivor/internal/game/engine"
 	"survivor/internal/game/settings"
 )

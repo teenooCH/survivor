@@ -11,7 +11,7 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 
-	"survivor/internal/entities/graph"
+	"survivor/internal/domain/graph"
 	"survivor/internal/game/engine"
 	"survivor/internal/game/game"
 	"survivor/internal/game/settings"
