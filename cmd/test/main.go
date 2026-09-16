@@ -11,10 +11,10 @@ import (
 
 	"github.com/hajimehoshi/ebiten/v2"
 
+	"survivor/internal/application/engine"
+	"survivor/internal/application/game"
+	"survivor/internal/application/settings"
 	"survivor/internal/domain/graph"
-	"survivor/internal/game/engine"
-	"survivor/internal/game/game"
-	"survivor/internal/game/settings"
 	"survivor/internal/infrastructure/assets"
 )
 

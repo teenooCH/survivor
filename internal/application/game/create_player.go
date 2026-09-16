@@ -3,10 +3,10 @@ package game
 import (
 	"fmt"
 
+	"survivor/internal/application/engine"
+	"survivor/internal/application/settings"
 	"survivor/internal/domain/player"
 	"survivor/internal/domain/sprite"
-	"survivor/internal/game/engine"
-	"survivor/internal/game/settings"
 )
 
 // Use case for creating a new player in the game.

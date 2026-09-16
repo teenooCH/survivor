@@ -1,11 +1,11 @@
 package engine
 
 import (
+	"survivor/internal/application/resource"
 	"survivor/internal/domain/collision"
 	"survivor/internal/domain/graph"
 	"survivor/internal/domain/input"
 	"survivor/internal/domain/world"
-	"survivor/internal/game/resource"
 )
 
 type Engine struct {
