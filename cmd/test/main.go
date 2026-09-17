@@ -4,18 +4,15 @@
 package main
 
 import (
-	"bytes"
-	"image"
 	_ "image/png"
 	"log"
 
-	"github.com/hajimehoshi/ebiten/v2"
-
 	"survivor/internal/application/engine"
 	"survivor/internal/application/game"
+	"survivor/internal/application/resource"
 	"survivor/internal/application/settings"
-	"survivor/internal/domain/graph"
 	"survivor/internal/infrastructure/assets"
+	"survivor/internal/infrastructure/ebiten"
 )
 
 const (
@@ -23,106 +20,107 @@ const (
 	screenHeight = 480
 )
 
-// ebitenImage adapts *ebiten.Image to the graph.Image interface.
-type ebitenImage struct {
-	img *ebiten.Image
-}
+// // ebitenImage adapts *ebiten.Image to the graph.Image interface.
+// type ebitenImage struct {
+// 	img *ebiten.Image
+// }
 
-func newEbitenImage(img *ebiten.Image) *ebitenImage { return &ebitenImage{img: img} }
+// func newEbitenImage(img *ebiten.Image) *ebitenImage { return &ebitenImage{img: img} }
 
-func (e *ebitenImage) DrawImage(src graph.Image, options graph.DrawOpt) {
-	source, ok := src.(*ebitenImage)
-	if !ok {
-		return
-	}
+// func (e *ebitenImage) DrawImage(src graph.Image, options graph.DrawOpt) {
+// 	source, ok := src.(*ebitenImage)
+// 	if !ok {
+// 		return
+// 	}
 
-	tr := options.Transform
-	scale := tr.Scale()
-	pos := tr.Position()
+// 	tr := options.Transform
+// 	scale := tr.Scale()
+// 	pos := tr.Position()
 
-	op := &ebiten.DrawImageOptions{}
-	op.GeoM.Scale(scale.X(), scale.Y())
-	op.GeoM.Rotate(tr.Rotation())
-	op.GeoM.Translate(pos.X(), pos.Y())
+// 	op := &ebiten.DrawImageOptions{}
+// 	op.GeoM.Scale(scale.X(), scale.Y())
+// 	op.GeoM.Rotate(tr.Rotation())
+// 	op.GeoM.Translate(pos.X(), pos.Y())
 
-	e.img.DrawImage(source.img, op)
-}
+// 	e.img.DrawImage(source.img, op)
+// }
 
-func (e *ebitenImage) Dimensions() (width, height float64) {
-	b := e.img.Bounds()
-	return float64(b.Dx()), float64(b.Dy())
-}
+// func (e *ebitenImage) Dimensions() (width, height float64) {
+// 	b := e.img.Bounds()
+// 	return float64(b.Dx()), float64(b.Dy())
+// }
 
-func (e *ebitenImage) SetDimensions(width, height float64) {
-	// ebiten images have a fixed size once created; nothing to do here.
-}
+// func (e *ebitenImage) SetDimensions(width, height float64) {
+// 	// ebiten images have a fixed size once created; nothing to do here.
+// }
 
-// textureManager is a resource.Manager backed by ebiten images loaded
-// from the embedded assets filesystem.
-type textureManager struct {
-	textures map[string]graph.Image
-}
+// // textureManager is a resource.Manager backed by ebiten images loaded
+// // from the embedded assets filesystem.
+// type textureManager struct {
+// 	textures map[string]graph.Image
+// }
 
-func newTextureManager() *textureManager {
-	return &textureManager{textures: make(map[string]graph.Image)}
-}
+// func newTextureManager() *textureManager {
+// 	return &textureManager{textures: make(map[string]graph.Image)}
+// }
 
-func (m *textureManager) LoadTexture(path, name string) error {
-	data, err := assets.FS.ReadFile(path)
-	if err != nil {
-		return err
-	}
+// func (m *textureManager) LoadTexture(path, name string) error {
+// 	data, err := assets.FS.ReadFile(path)
+// 	if err != nil {
+// 		return err
+// 	}
 
-	src, _, err := image.Decode(bytes.NewReader(data))
-	if err != nil {
-		return err
-	}
+// 	src, _, err := image.Decode(bytes.NewReader(data))
+// 	if err != nil {
+// 		return err
+// 	}
 
-	m.textures[name] = newEbitenImage(ebiten.NewImageFromImage(src))
+// 	m.textures[name] = newEbitenImage(ebiten.NewImageFromImage(src))
 
-	return nil
-}
+// 	return nil
+// }
 
-func (m *textureManager) GetTexture(name string) (graph.Image, bool) {
-	tex, ok := m.textures[name]
-	return tex, ok
-}
+// func (m *textureManager) GetTexture(name string) (graph.Image, bool) {
+// 	tex, ok := m.textures[name]
+// 	return tex, ok
+// }
 
-// ebGame implements ebiten.Game and drives the survivor engine.
-type ebGame struct {
-	engine *engine.Engine
-}
+// // ebGame implements ebiten.Game and drives the survivor engine.
+// type ebGame struct {
+// 	engine *engine.Engine
+// }
 
-func (g *ebGame) Update() error {
-	g.engine.Update()
-	return nil
-}
+// func (g *ebGame) Update() error {
+// 	g.engine.Update()
+// 	return nil
+// }
 
-func (g *ebGame) Draw(screen *ebiten.Image) {
-	g.engine.Draw(newEbitenImage(screen))
-}
+// func (g *ebGame) Draw(screen *ebiten.Image) {
+// 	g.engine.Draw(newEbitenImage(screen))
+// }
 
-func (g *ebGame) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return screenWidth, screenHeight
-}
+// func (g *ebGame) Layout(outsideWidth, outsideHeight int) (int, int) {
+// 	return screenWidth, screenHeight
+// }
 
 func main() {
-	textures := newTextureManager()
+	textures := resource.NewManager(ebiten.NewTextureProvider(assets.FS))
 	if err := textures.LoadTexture(assets.Player, settings.PlayerTexture); err != nil {
 		log.Fatalf("failed to load player texture: %v", err)
 	}
 
-	surface := newEbitenImage(ebiten.NewImage(screenWidth, screenHeight))
+	surface := ebiten.GetNewImage(screenWidth, screenHeight)
 	eng := engine.New(surface, textures)
 
 	p := game.CreatePlayer(settings.PlayerName, eng, 0)
 	p.SetPosition(screenWidth/2, screenHeight/2)
 	eng.World().AddNode(p, 0)
 
-	ebiten.SetWindowSize(screenWidth, screenHeight)
-	ebiten.SetWindowTitle("Survivor - Player Draw Test")
+	// ebiten.SetWindowSize(screenWidth, screenHeight)
+	// ebiten.SetWindowTitle("Survivor - Player Draw Test")
 
-	if err := ebiten.RunGame(&ebGame{engine: eng}); err != nil {
-		log.Fatal(err)
-	}
+	// if err := ebiten.RunGame(&ebGame{engine: eng}); err != nil {
+	// 	log.Fatal(err)
+	// }
+	ebiten.RunGame(eng)
 }
