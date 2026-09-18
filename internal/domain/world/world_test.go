@@ -3,6 +3,7 @@ package world_test
 import (
 	"testing"
 
+	"survivor/internal/domain/camera"
 	"survivor/internal/domain/graph"
 	"survivor/internal/domain/node2D"
 	"survivor/internal/domain/transform"
@@ -37,7 +38,7 @@ func (d *drawableNode) Draw(target graph.Image, options graph.DrawOpt) {
 func TestWorldDrawOnlyDrawsDrawableNodesInLayerOrder(t *testing.T) {
 	var order []string
 
-	w := world.New(fakeImage{})
+	w := world.New(camera.New(100, 100))
 
 	// worldLayer 0: two drawable nodes with different GetLayer values plus a non-drawable node.
 	nodeHigh := newDrawableNode("high", 5, &order)
@@ -71,7 +72,7 @@ func TestWorldDrawOnlyDrawsDrawableNodesInLayerOrder(t *testing.T) {
 func TestWorldDrawSkipsNonDrawableNodes(t *testing.T) {
 	var order []string
 
-	w := world.New(fakeImage{})
+	w := world.New(camera.New(100, 100))
 
 	nonDrawable := node2D.New("plain")
 	w.AddNode(nonDrawable, 0)

@@ -15,9 +15,9 @@ type Engine struct {
 	collision *collision.Manager
 }
 
-func New(surface graph.Image, rm *resource.Manager) *Engine {
+func New(world *world.World, rm *resource.Manager) *Engine {
 	return &Engine{
-		world:     world.New(surface),
+		world:     world,
 		input:     input.NewManager(),
 		resource:  rm,
 		collision: collision.NewManager(),

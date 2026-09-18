@@ -11,6 +11,8 @@ import (
 	"survivor/internal/application/game"
 	"survivor/internal/application/resource"
 	"survivor/internal/application/settings"
+	"survivor/internal/domain/camera"
+	"survivor/internal/domain/world"
 	"survivor/internal/infrastructure/assets"
 	"survivor/internal/infrastructure/ebiten"
 )
@@ -109,8 +111,9 @@ func main() {
 		log.Fatalf("failed to load player texture: %v", err)
 	}
 
-	surface := ebiten.GetNewImage(screenWidth, screenHeight)
-	eng := engine.New(surface, textures)
+	camera := camera.New(screenWidth, screenHeight)
+	world := world.New(camera)
+	eng := engine.New(world, textures)
 
 	p := game.CreatePlayer(settings.PlayerName, eng, 0)
 	p.SetPosition(screenWidth/2, screenHeight/2)

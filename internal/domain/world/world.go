@@ -22,11 +22,11 @@ type World struct {
 	camera     *camera.Camera
 }
 
-func New(surface graph.Image) *World {
+func New(camera *camera.Camera) *World {
 	return &World{
 		rootNode:   node2D.New("root"),
 		layerRoots: make([]node.Node, 0),
-		camera:     camera.New(surface),
+		camera:     camera,
 	}
 }
 
@@ -72,7 +72,7 @@ func (w *World) Update() {
 // It prepares the draw callbacks for all drawable nodes and
 // executes them in the correct order.
 func (w *World) Draw(target graph.Image) {
-	w.camera.Update()
+	w.camera.Update() // TODO - Check if it should be called in Update() instead of Draw()
 
 	cb := newCallbackStacks()
 	for i, layerRoot := range w.layerRoots {
@@ -80,7 +80,6 @@ func (w *World) Draw(target graph.Image) {
 	}
 
 	cb.excecuteAll()
-	w.camera.DrawToScreen(target)
 }
 
 // prepare the callbacks for the given node and its children recursively.
@@ -94,10 +93,12 @@ func prepareCallbacks(cb *callbackStacks, camera *camera.Camera,
 
 	if drawable, ok := node.(graph.Drawable); ok {
 		tr := prepareTransform(drawable)
-		camera.ApplyOffset(&tr)
-		op := graph.DrawOpt{Transform: tr}
+		pos := camera.GetPosition()
+		// translate world coordinates to camera-relative coordinates
+		tr.Translate(-pos.X(), -pos.Y())
+
 		f := func() {
-			drawable.Draw(target, op)
+			drawable.Draw(target, graph.DrawOpt{Transform: tr})
 		}
 		cb.addCallback(layerIndex, f)
 	}
