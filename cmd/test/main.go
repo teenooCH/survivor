@@ -33,7 +33,6 @@ func main() {
 
 	p := game.CreatePlayer(settings.PlayerName, eng, 0)
 	p.SetPosition(screenWidth/2, screenHeight/2)
-	p.SetRotation(0.02)
 	eng.World().AddNode(p, 0)
 
 	ebiten.RunGame(eng)
