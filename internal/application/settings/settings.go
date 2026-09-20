@@ -15,4 +15,5 @@ const (
 	PlayerInitialHP    = 100.0
 	PlayerInitialXP    = 0
 	PlayerInitialLevel = 1
+	PlayerSpeed        = 3.0 // pixels moved per Update call
 )

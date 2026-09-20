@@ -1,8 +1,5 @@
-please review the survivor project. I'd like to know if the architecture is
-in the sense of Clean Architecture.
-The entities directory contains the innermost layer with the most stable components.
-The game directory contains the game logic (aka Use Cases).
-I want to know if the interfaces (graph, node, resource) are at the right place 
-or should be place further out in the hirachy.
-If there are more insights please let me know.
-No code changes at the moment.
+Generiere den Code für eine Inputsteuerung.
+Verwende die ebiten Library dazu.
+Als Vorlage dient https://github.com/LuigiVanacore/beginning-game-programming-go-ebitengine/tree/main/ch13
+Mir ist nicht klar, wo genau die Outgoing Interfaces zu setzen sind.
+Wichtig ist, dass die Clean Architecture sauber umgesetz wird.

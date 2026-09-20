@@ -6,6 +6,7 @@ import (
 	"survivor/internal/domain/graph"
 	"survivor/internal/domain/input"
 	"survivor/internal/domain/world"
+	"survivor/internal/ports"
 )
 
 type Engine struct {
@@ -15,10 +16,13 @@ type Engine struct {
 	collision *collision.Manager
 }
 
-func New(world *world.World, rm *resource.Manager) *Engine {
+// New wires the engine together. inputProvider is the outgoing interface
+// implementation (e.g. infrastructure/ebiten.InputProvider) supplied by the
+// composition root, keeping the engine free of any hardware dependency.
+func New(world *world.World, rm *resource.Manager, inputProvider ports.InputProvider) *Engine {
 	return &Engine{
 		world:     world,
-		input:     input.NewManager(),
+		input:     input.NewManager(inputProvider),
 		resource:  rm,
 		collision: collision.NewManager(),
 	}

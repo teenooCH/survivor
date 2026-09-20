@@ -64,8 +64,28 @@ func (w *World) RemoveNode(n node.Node) bool {
 	return true
 }
 
+// Updatable is implemented by nodes that need per-frame logic (e.g. reading
+// input and moving). World.Update walks the scene graph and calls Update on
+// every node that implements it, mirroring how Draw treats graph.Drawable.
+type Updatable interface {
+	Update()
+}
+
 func (w *World) Update() {
-	// I don't know yet what this function should do
+	for _, layerRoot := range w.layerRoots {
+		updateNode(layerRoot)
+	}
+}
+
+// updateNode recursively updates a node's children before the node itself.
+func updateNode(n node.Node) {
+	for child := range n.GetChildren() {
+		updateNode(child)
+	}
+
+	if u, ok := n.(Updatable); ok {
+		u.Update()
+	}
 }
 
 // Draw draws the world scene graph onto the target image.

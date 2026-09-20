@@ -12,7 +12,7 @@ import (
 // Use case for creating a new player in the game.
 
 func CreatePlayer(name string, engine *engine.Engine, layer int) *player.Player {
-	p := player.New(settings.PlayerName)
+	p := player.New(settings.PlayerName, engine.InputManager(), settings.PlayerSpeed)
 
 	tex, _ := engine.ResourceManager().GetTexture(settings.PlayerTexture)
 	spriteName := fmt.Sprintf("%s_sprite", name)

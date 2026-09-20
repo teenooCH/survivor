@@ -29,7 +29,9 @@ func main() {
 
 	camera := camera.New(screenWidth, screenHeight)
 	world := world.New(camera)
-	eng := engine.New(world, textures)
+	eng := engine.New(world, textures, ebiten.NewInputProvider())
+
+	game.RegisterDefaultBindings(eng)
 
 	p := game.CreatePlayer(settings.PlayerName, eng, 0)
 	p.SetPosition(screenWidth/2, screenHeight/2)
