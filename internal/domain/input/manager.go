@@ -4,7 +4,11 @@
 // hardware backend can be swapped without touching domain or application code.
 package input
 
-import "survivor/internal/ports"
+import (
+	"slices"
+
+	"survivor/internal/ports"
+)
 
 // bindingKind identifies which physical input device a binding refers to.
 type bindingKind int
@@ -95,37 +99,19 @@ func (m *Manager) ConnectedGamepadIDs() []GamepadID {
 
 // IsActionPressed reports whether any input bound to action is currently held.
 func (m *Manager) IsActionPressed(action Action) bool {
-	for _, b := range m.bindings[action] {
-		if m.isBindingPressed(b) {
-			return true
-		}
-	}
-
-	return false
+	return slices.ContainsFunc(m.bindings[action], m.isBindingPressed)
 }
 
 // IsActionJustPressed reports whether any input bound to action transitioned
 // to pressed this frame.
 func (m *Manager) IsActionJustPressed(action Action) bool {
-	for _, b := range m.bindings[action] {
-		if m.isBindingJustPressed(b) {
-			return true
-		}
-	}
-
-	return false
+	return slices.ContainsFunc(m.bindings[action], m.isBindingJustPressed)
 }
 
 // IsActionJustReleased reports whether any input bound to action transitioned
 // to released this frame.
 func (m *Manager) IsActionJustReleased(action Action) bool {
-	for _, b := range m.bindings[action] {
-		if m.isBindingJustReleased(b) {
-			return true
-		}
-	}
-
-	return false
+	return slices.ContainsFunc(m.bindings[action], m.isBindingJustReleased)
 }
 
 func (m *Manager) isBindingPressed(b binding) bool {
