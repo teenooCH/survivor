@@ -92,15 +92,9 @@ func (m *Manager) ClearBindings(action Action) {
 	delete(m.bindings, action)
 }
 
-<<<<<<< HEAD
-// IsActionPressed reports whether any Key bound to action is currently held.
-func (m *Manager) IsActionPressed(action Action) bool {
-	return slices.ContainsFunc(m.bindings[action], m.provider.IsKeyPressed)
-=======
 // ConnectedGamepadIDs returns the IDs of all currently connected gamepads.
 func (m *Manager) ConnectedGamepadIDs() []GamepadID {
 	return m.provider.ConnectedGamepadIDs()
->>>>>>> input-implementation
 }
 
 // IsActionPressed reports whether any input bound to action is currently held.
@@ -111,19 +105,12 @@ func (m *Manager) IsActionPressed(action Action) bool {
 // IsActionJustPressed reports whether any input bound to action transitioned
 // to pressed this frame.
 func (m *Manager) IsActionJustPressed(action Action) bool {
-<<<<<<< HEAD
-	return slices.ContainsFunc(m.bindings[action], m.provider.IsKeyJustPressed)
-=======
 	return slices.ContainsFunc(m.bindings[action], m.isBindingJustPressed)
->>>>>>> input-implementation
 }
 
 // IsActionJustReleased reports whether any input bound to action transitioned
 // to released this frame.
 func (m *Manager) IsActionJustReleased(action Action) bool {
-<<<<<<< HEAD
-	return slices.ContainsFunc(m.bindings[action], m.provider.IsKeyJustReleased)
-=======
 	return slices.ContainsFunc(m.bindings[action], m.isBindingJustReleased)
 }
 
@@ -180,5 +167,4 @@ func (m *Manager) isGamepadBindingActive(b binding, check func(GamepadID, Gamepa
 	}
 
 	return false
->>>>>>> input-implementation
 }
