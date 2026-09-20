@@ -4,7 +4,11 @@
 // hardware backend can be swapped without touching domain or application code.
 package input
 
-import "survivor/internal/ports"
+import (
+	"slices"
+
+	"survivor/internal/ports"
+)
 
 // Manager binds Actions to one or more Keys and resolves their state
 // through a ports.InputProvider.
@@ -37,35 +41,17 @@ func (m *Manager) ClearBindings(action Action) {
 
 // IsActionPressed reports whether any Key bound to action is currently held.
 func (m *Manager) IsActionPressed(action Action) bool {
-	for _, key := range m.bindings[action] {
-		if m.provider.IsKeyPressed(key) {
-			return true
-		}
-	}
-
-	return false
+	return slices.ContainsFunc(m.bindings[action], m.provider.IsKeyPressed)
 }
 
 // IsActionJustPressed reports whether any Key bound to action transitioned
 // to pressed this frame.
 func (m *Manager) IsActionJustPressed(action Action) bool {
-	for _, key := range m.bindings[action] {
-		if m.provider.IsKeyJustPressed(key) {
-			return true
-		}
-	}
-
-	return false
+	return slices.ContainsFunc(m.bindings[action], m.provider.IsKeyJustPressed)
 }
 
 // IsActionJustReleased reports whether any Key bound to action transitioned
 // to released this frame.
 func (m *Manager) IsActionJustReleased(action Action) bool {
-	for _, key := range m.bindings[action] {
-		if m.provider.IsKeyJustReleased(key) {
-			return true
-		}
-	}
-
-	return false
+	return slices.ContainsFunc(m.bindings[action], m.provider.IsKeyJustReleased)
 }
