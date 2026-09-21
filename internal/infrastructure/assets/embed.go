@@ -2,5 +2,5 @@ package assets
 
 import "embed"
 
-//go:embed sprites
+//go:embed sprites maps
 var FS embed.FS
