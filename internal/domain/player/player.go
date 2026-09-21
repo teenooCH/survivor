@@ -49,12 +49,15 @@ func (p *Player) Update() {
 	if p.input.IsActionPressed(input.ActionMoveUp) {
 		dy -= 1
 	}
+
 	if p.input.IsActionPressed(input.ActionMoveDown) {
 		dy += 1
 	}
+
 	if p.input.IsActionPressed(input.ActionMoveLeft) {
 		dx -= 1
 	}
+
 	if p.input.IsActionPressed(input.ActionMoveRight) {
 		dx += 1
 	}
