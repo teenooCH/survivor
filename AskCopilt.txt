@@ -1,5 +1,2 @@
-Generiere den Code für eine Inputsteuerung.
-Verwende die ebiten Library dazu.
-Als Vorlage dient https://github.com/LuigiVanacore/beginning-game-programming-go-ebitengine/tree/main/ch13
-Mir ist nicht klar, wo genau die Outgoing Interfaces zu setzen sind.
-Wichtig ist, dass die Clean Architecture sauber umgesetz wird.
+Erstelle eine Infinite Tilemap nach Vorlage in ~/Projects/gopher-survivor.
+Bitte mit einer klaren Clean Architecture Struktur
