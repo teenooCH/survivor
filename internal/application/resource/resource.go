@@ -1,26 +1,33 @@
 package resource
 
 import (
+	"fmt"
+
 	"survivor/internal/domain/graph"
+	"survivor/internal/domain/tile"
 	"survivor/internal/ports"
 )
 
 type Manager struct {
-	textures map[string]graph.Image
-	provider ports.TextureProvider
+	textures        map[string]graph.Image
+	patterns        map[string]tile.Pattern
+	textureProvider ports.TextureProvider
+	mapProvider     ports.MapProvider
 }
 
-func NewManager(provider ports.TextureProvider) *Manager {
+func NewManager(textureProvider ports.TextureProvider, mapProvider ports.MapProvider) *Manager {
 	return &Manager{
-		textures: make(map[string]graph.Image),
-		provider: provider,
+		textures:        make(map[string]graph.Image),
+		patterns:        make(map[string]tile.Pattern),
+		textureProvider: textureProvider,
+		mapProvider:     mapProvider,
 	}
 }
 
 // LoadTexture loads a texture from the specified path and
 // associates it with the given name.
 func (m *Manager) LoadTexture(path, name string) error {
-	texture, err := m.provider.LoadTexture(path)
+	texture, err := m.textureProvider.LoadTexture(path)
 	if err != nil {
 		return err
 	}
@@ -28,6 +35,47 @@ func (m *Manager) LoadTexture(path, name string) error {
 	m.textures[name] = texture
 
 	return nil
+}
+
+// LoadTileset loads a spritesheet and slices it into count tiles of
+// tileWidth x tileHeight pixels (see ports.TextureProvider.LoadTileset),
+// storing each one under "namePrefix_<index>".
+func (m *Manager) LoadTileset(path, namePrefix string, tileWidth, tileHeight, spacing, count int) error {
+	textures, err := m.textureProvider.LoadTileset(path, tileWidth, tileHeight, spacing, count)
+	if err != nil {
+		return err
+	}
+
+	for i, texture := range textures {
+		m.textures[fmt.Sprintf("%s_%d", namePrefix, i)] = texture
+	}
+
+	return nil
+}
+
+// LoadPattern loads a tile index grid from the specified path and
+// associates it with the given name.
+func (m *Manager) LoadPattern(path, name string) error {
+	data, err := m.mapProvider.LoadMap(path)
+	if err != nil {
+		return err
+	}
+
+	pattern, err := tile.ParsePattern(data)
+	if err != nil {
+		return err
+	}
+
+	m.patterns[name] = pattern
+
+	return nil
+}
+
+// GetPattern retrieves the pattern associated with the given name.
+// Returns false if the pattern is not found.
+func (m *Manager) GetPattern(name string) (tile.Pattern, bool) {
+	p, ok := m.patterns[name]
+	return p, ok
 }
 
 // GetTexture retrieves the texture associated with the given name.

@@ -22,9 +22,20 @@ const (
 )
 
 func main() {
-	textures := resource.NewManager(ebiten.NewTextureProvider(assets.FS))
+	textures := resource.NewManager(ebiten.NewTextureProvider(assets.FS), assets.NewMapProvider(assets.FS))
 	if err := textures.LoadTexture(assets.Player, settings.PlayerTexture); err != nil {
 		log.Fatalf("failed to load player texture: %v", err)
+	}
+
+	if err := textures.LoadTileset(
+		assets.Spritesheet, settings.FloorTileset,
+		settings.TileWidth, settings.TileHeight, settings.TileSpacing, settings.FloorTileCount,
+	); err != nil {
+		log.Fatalf("failed to load floor tileset: %v", err)
+	}
+
+	if err := textures.LoadPattern(assets.FloorMap, settings.FloorMapPattern); err != nil {
+		log.Fatalf("failed to load floor map: %v", err)
 	}
 
 	camera := camera.New(screenWidth, screenHeight)
@@ -33,9 +44,14 @@ func main() {
 
 	game.RegisterDefaultBindings(eng)
 
-	p := game.CreatePlayer(settings.PlayerName, eng, 0)
+	if _, err := game.CreateTileMap("floor", eng, camera, 0); err != nil {
+		log.Fatalf("failed to create tilemap: %v", err)
+	}
+
+	p := game.CreatePlayer(settings.PlayerName, eng, 1)
 	p.SetPosition(screenWidth/2, screenHeight/2)
-	eng.World().AddNode(p, 0)
+	eng.World().AddNode(p, 1)
+	camera.SetFollow(p)
 
 	ebiten.RunGame(eng)
 }
