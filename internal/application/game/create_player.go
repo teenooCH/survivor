@@ -5,6 +5,7 @@ import (
 
 	"survivor/internal/application/engine"
 	"survivor/internal/application/settings"
+	"survivor/internal/domain/collision"
 	"survivor/internal/domain/player"
 	"survivor/internal/domain/sprite"
 )
@@ -18,6 +19,13 @@ func CreatePlayer(name string, engine *engine.Engine, layer int) *player.Player 
 	spriteName := fmt.Sprintf("%s_sprite", name)
 	sprite := sprite.New(spriteName, tex, layer)
 	p.AddChild(sprite)
+
+	colliderName := fmt.Sprintf("%s_collider", name)
+	shape := collision.NewCircle(settings.PlayerColliderRadius)
+	mask := collision.NewMask(collision.LayerPlayer, collision.LayerEnemy)
+	c := collision.NewCollider(colliderName, mask, shape)
+	p.SetCollider(c)
+	p.AddChild(c)
 
 	p.SetHP(settings.PlayerInitialHP)
 	p.SetXP(settings.PlayerInitialXP)

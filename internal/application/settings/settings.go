@@ -12,10 +12,11 @@ const (
 
 // Settings for the player character.
 const (
-	PlayerInitialHP    = 100.0
-	PlayerInitialXP    = 0
-	PlayerInitialLevel = 1
-	PlayerSpeed        = 3.0 // pixels moved per Update call
+	PlayerInitialHP      = 100.0
+	PlayerInitialXP      = 0
+	PlayerInitialLevel   = 1
+	PlayerSpeed          = 4.0 // pixels moved per Update call
+	PlayerColliderRadius = 14.0
 )
 
 // Resource keys for the floor tilemap. FloorTileset is the name prefix
