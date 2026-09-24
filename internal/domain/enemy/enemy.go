@@ -20,7 +20,7 @@ type Enemy struct {
 
 	collider *collision.Collider
 
-	target PositionProvider
+	targetNode PositionProvider
 }
 
 func New(name string) *Enemy {
@@ -34,12 +34,12 @@ func New(name string) *Enemy {
 func (e *Enemy) HP() float64                   { return e.hp }
 func (e *Enemy) Speed() float64                { return e.speed }
 func (e *Enemy) Collider() *collision.Collider { return e.collider }
-func (e *Enemy) Target() PositionProvider      { return e.target }
+func (e *Enemy) Target() PositionProvider      { return e.targetNode }
 
 func (e *Enemy) SetHP(hp float64)                  { e.hp = hp }
 func (e *Enemy) SetSpeed(speed float64)            { e.speed = speed }
 func (e *Enemy) SetCollider(c *collision.Collider) { e.collider = c }
-func (e *Enemy) SetTarget(target PositionProvider) { e.target = target }
+func (e *Enemy) SetTarget(target PositionProvider) { e.targetNode = target }
 
 // move towards a given target position.
 func (e *Enemy) moveToward(target vector.Vector) {
@@ -58,7 +58,7 @@ func (e *Enemy) moveToward(target vector.Vector) {
 }
 
 func (e *Enemy) Update() {
-	if e.target != nil {
-		e.moveToward(e.target.GetPosition())
+	if e.targetNode != nil {
+		e.moveToward(e.targetNode.GetPosition())
 	}
 }
