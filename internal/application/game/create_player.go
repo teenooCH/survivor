@@ -26,6 +26,7 @@ func CreatePlayer(name string, engine *engine.Engine, layer int) *player.Player 
 	c := collision.NewCollider(colliderName, mask, shape)
 	p.SetCollider(c)
 	p.AddChild(c)
+	engine.CollisionManager().AddCollider(c)
 
 	p.SetHP(settings.PlayerInitialHP)
 	p.SetXP(settings.PlayerInitialXP)

@@ -3,6 +3,7 @@ package settings
 // Texture keys for various game assets.
 const (
 	PlayerTexture = "player"
+	EnemyTexture  = "enemy"
 )
 
 // Names for various game entities.
@@ -17,6 +18,13 @@ const (
 	PlayerInitialLevel   = 1
 	PlayerSpeed          = 4.0 // pixels moved per Update call
 	PlayerColliderRadius = 14.0
+)
+
+// Settings for the enemy character.
+const (
+	EnemyScaleFactor    = 2.0
+	EnemySpeed          = 1.4 // pixels moved per Update call
+	EnemyColliderRadius = 12.0
 )
 
 // Resource keys for the floor tilemap. FloorTileset is the name prefix

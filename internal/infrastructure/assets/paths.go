@@ -7,6 +7,7 @@ const (
 	Spritesheet = "sprites/spritesheet.png"
 
 	Player = "sprites/player.png"
+	Enemy  = "sprites/enemy.png"
 
 	FloorMap = "maps/floor.map"
 )

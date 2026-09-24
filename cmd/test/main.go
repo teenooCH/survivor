@@ -27,6 +27,10 @@ func main() {
 		log.Fatalf("failed to load player texture: %v", err)
 	}
 
+	if err := textures.LoadTexture(assets.Enemy, settings.EnemyTexture); err != nil {
+		log.Fatalf("failed to load enemy texture: %v", err)
+	}
+
 	if err := textures.LoadTileset(
 		assets.Spritesheet, settings.FloorTileset,
 		settings.TileWidth, settings.TileHeight, settings.TileSpacing, settings.FloorTileCount,
@@ -52,6 +56,12 @@ func main() {
 	p.SetPosition(screenWidth/2, screenHeight/2)
 	eng.World().AddNode(p, 1)
 	camera.SetFollow(p)
+
+	e := game.CreateEnemy("enemy", eng, 1)
+	e.SetPosition(screenWidth/2+150, screenHeight/2)
+	e.SetSpeed(settings.EnemySpeed)
+	eng.World().AddNode(e, 1)
+	e.SetTarget(p)
 
 	ebiten.RunGame(eng)
 }
