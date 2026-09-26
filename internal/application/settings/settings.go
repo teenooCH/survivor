@@ -9,6 +9,8 @@ const (
 // Names for various game entities.
 const (
 	PlayerName = "player"
+	EnemyName  = "enemy"
+	FloorName  = "floor"
 )
 
 // Settings for the player character.

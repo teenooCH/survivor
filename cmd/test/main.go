@@ -48,7 +48,7 @@ func main() {
 
 	game.RegisterDefaultBindings(eng)
 
-	if _, err := game.CreateTileMap("floor", eng, camera, 0); err != nil {
+	if _, err := game.CreateTileMap(settings.FloorName, eng, camera, 0); err != nil {
 		log.Fatalf("failed to create tilemap: %v", err)
 	}
 
@@ -57,11 +57,11 @@ func main() {
 	eng.World().AddNode(p, 1)
 	camera.SetFollow(p)
 
-	e := game.CreateEnemy("enemy", eng, 1)
+	e := game.CreateEnemy(settings.EnemyName, eng, 1)
 	e.SetPosition(screenWidth/2+150, screenHeight/2)
 	e.SetSpeed(settings.EnemySpeed)
-	eng.World().AddNode(e, 1)
 	e.SetTarget(p)
+	eng.World().AddNode(e, 1)
 
 	ebiten.RunGame(eng)
 }
