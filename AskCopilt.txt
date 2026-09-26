@@ -1,2 +1,9 @@
-Erstelle eine Infinite Tilemap nach Vorlage in ~/Projects/gopher-survivor.
-Bitte mit einer klaren Clean Architecture Struktur
+Erstelle ein ui package, das einen Text über den Bildschirm darstellen kann (HUD).
+Ein späterer Ausbau mit Graphen (z.B. für die Gesundheit) sollte möglich sein.
+Folgendes sollte parametrisierbar sein:
+- Text
+- Farbe
+- Position
+- Grösse
+- Background: Farbe oder durchsichtig
+- Rahmen
