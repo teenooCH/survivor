@@ -51,9 +51,11 @@ func TestText_Draw(t *testing.T) {
 	if got.Text != "hello" || got.X != 10 || got.Y != 20 || got.Size != 24 {
 		t.Errorf("unexpected TextOpt: %+v", got)
 	}
+
 	if got.Background.Transparent || got.Background.Color != color.Black {
 		t.Errorf("unexpected background: %+v", got.Background)
 	}
+
 	if !got.Border.Visible || got.Border.Width != 2 {
 		t.Errorf("unexpected border: %+v", got.Border)
 	}
@@ -82,6 +84,7 @@ func TestHUD_Draw(t *testing.T) {
 	hud := ui.NewHUD()
 	a := ui.NewText("a", 0, 0)
 	b := ui.NewText("b", 0, 0)
+
 	hud.AddWidget(a)
 	hud.AddWidget(b)
 
