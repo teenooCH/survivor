@@ -5,6 +5,7 @@ import (
 	"survivor/internal/domain/collision"
 	"survivor/internal/domain/graph"
 	"survivor/internal/domain/input"
+	"survivor/internal/domain/ui"
 	"survivor/internal/domain/world"
 	"survivor/internal/ports"
 )
@@ -14,6 +15,7 @@ type Engine struct {
 	input     *input.Manager
 	resource  *resource.Manager
 	collision *collision.Manager
+	hud       *ui.HUD
 }
 
 // New wires the engine together. inputProvider is the outgoing interface
@@ -25,12 +27,14 @@ func New(world *world.World, rm *resource.Manager, inputProvider ports.InputProv
 		input:     input.NewManager(inputProvider),
 		resource:  rm,
 		collision: collision.NewManager(),
+		hud:       ui.NewHUD(),
 	}
 }
 func (e *Engine) World() *world.World                  { return e.world }
 func (e *Engine) InputManager() *input.Manager         { return e.input }
 func (e *Engine) ResourceManager() *resource.Manager   { return e.resource }
 func (e *Engine) CollisionManager() *collision.Manager { return e.collision }
+func (e *Engine) HUD() *ui.HUD                         { return e.hud }
 
 func (e *Engine) Update() {
 	e.world.Update()
@@ -39,5 +43,5 @@ func (e *Engine) Update() {
 
 func (e *Engine) Draw(target graph.Image) {
 	e.world.Draw(target)
-	// Add more draw logic for input, collision, etc. if needed
+	e.hud.Draw(target)
 }

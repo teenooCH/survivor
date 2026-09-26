@@ -4,6 +4,7 @@
 package main
 
 import (
+	"image/color"
 	"log"
 
 	"survivor/internal/application/engine"
@@ -11,6 +12,7 @@ import (
 	"survivor/internal/application/resource"
 	"survivor/internal/application/settings"
 	"survivor/internal/domain/camera"
+	"survivor/internal/domain/ui"
 	"survivor/internal/domain/world"
 	"survivor/internal/infrastructure/assets"
 	"survivor/internal/infrastructure/ebiten"
@@ -62,6 +64,13 @@ func main() {
 	e.SetSpeed(settings.EnemySpeed)
 	e.SetTarget(p)
 	eng.World().AddNode(e, 1)
+
+	hudText := ui.NewText("HP: 100", 10, 10)
+	hudText.SetColor(color.White)
+	hudText.SetSize(16)
+	hudText.SetBackground(ui.NewBackground(color.RGBA{A: 160}))
+	hudText.SetBorder(ui.NewBorder(color.White, 1))
+	eng.HUD().AddWidget(hudText)
 
 	ebiten.RunGame(eng)
 }
