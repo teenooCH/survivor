@@ -12,10 +12,14 @@ import (
 
 // Use case for creating a new player in the game.
 
-func CreatePlayer(name string, engine *engine.Engine, layer int) *player.Player {
+func CreatePlayer(name string, engine *engine.Engine, layer int) (*player.Player, error) {
 	p := player.New(name, engine.InputManager(), settings.PlayerSpeed)
 
-	tex, _ := engine.ResourceManager().GetTexture(settings.PlayerTexture)
+	tex, ok := engine.ResourceManager().GetTexture(settings.PlayerTexture)
+	if !ok {
+		return nil, fmt.Errorf("failed to get player texture")
+	}
+
 	spriteName := fmt.Sprintf("%s_sprite", name)
 	sprite := sprite.New(spriteName, tex, layer)
 	p.AddChild(sprite)
@@ -32,5 +36,5 @@ func CreatePlayer(name string, engine *engine.Engine, layer int) *player.Player 
 	p.SetXP(settings.PlayerInitialXP)
 	p.SetLevel(settings.PlayerInitialLevel)
 
-	return p
+	return p, nil
 }

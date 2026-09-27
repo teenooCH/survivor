@@ -12,10 +12,14 @@ import (
 
 // Use case for creating a new enemy.
 
-func CreateEnemy(name string, engine *engine.Engine, layer int) *enemy.Enemy {
+func CreateEnemy(name string, engine *engine.Engine, layer int) (*enemy.Enemy, error) {
 	e := enemy.New(name)
 
-	tex, _ := engine.ResourceManager().GetTexture(settings.EnemyTexture)
+	tex, ok := engine.ResourceManager().GetTexture(settings.EnemyTexture)
+	if !ok {
+		return nil, fmt.Errorf("failed to get enemy texture")
+	}
+
 	spriteName := fmt.Sprintf("%s_sprite", name)
 	sprite := sprite.New(spriteName, tex, layer)
 	sprite.SetScale(settings.EnemyScaleFactor, settings.EnemyScaleFactor)
@@ -29,5 +33,5 @@ func CreateEnemy(name string, engine *engine.Engine, layer int) *enemy.Enemy {
 	e.AddChild(c)
 	engine.CollisionManager().AddCollider(c)
 
-	return e
+	return e, nil
 }

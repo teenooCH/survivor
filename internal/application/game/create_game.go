@@ -1,7 +1,7 @@
 package game
 
 import (
-	"log"
+	"fmt"
 
 	"survivor/internal/application/engine"
 	"survivor/internal/application/resource"
@@ -19,7 +19,7 @@ import (
 func CreateGame(textures *resource.Manager,
 	inputProvider ports.InputProvider,
 	screenWidth, screenHeight uint,
-) *Game {
+) (*Game, error) {
 	camera := camera.New(screenWidth, screenHeight)
 	world := world.New(camera)
 	engine := engine.New(world, textures, inputProvider)
@@ -27,15 +27,23 @@ func CreateGame(textures *resource.Manager,
 	RegisterDefaultBindings(engine)
 
 	if _, err := CreateTileMap(settings.FloorName, engine, camera, 0); err != nil {
-		log.Fatalf("failed to create tilemap: %v", err)
+		return nil, fmt.Errorf("failed to create tilemap: %v", err)
 	}
 
-	p := CreatePlayer(settings.PlayerName, engine, 1)
+	p, err := CreatePlayer(settings.PlayerName, engine, 1)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create player: %v", err)
+	}
+
 	p.SetPosition(float64(screenWidth)/2, float64(screenHeight)/2)
 	engine.World().AddNode(p, 1)
 	camera.SetFollow(p)
 
-	e := CreateEnemy(settings.EnemyName, engine, 1)
+	e, err := CreateEnemy(settings.EnemyName, engine, 1)
+	if err != nil {
+		return nil, fmt.Errorf("failed to create enemy: %v", err)
+	}
+
 	e.SetPosition(float64(screenWidth)/2+250, float64(screenHeight)/2)
 	e.SetSpeed(settings.EnemySpeed)
 	e.SetTarget(p)
@@ -47,5 +55,5 @@ func CreateGame(textures *resource.Manager,
 	g.HUD().AddWidget(gameOverWidget)
 	WirePlayerCallbacks(p, g)
 
-	return g
+	return g, nil
 }

@@ -23,7 +23,10 @@ func main() {
 		log.Fatalf("failed to load game resources: %v", err)
 	}
 
-	g := game.CreateGame(rm, ebiten.NewInputProvider(), screenWidth, screenHeight)
+	g, err := game.CreateGame(rm, ebiten.NewInputProvider(), screenWidth, screenHeight)
+	if err != nil {
+		log.Fatalf("failed to create game: %v", err)
+	}
 
 	ebiten.RunGame(g)
 }
