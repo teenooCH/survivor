@@ -8,7 +8,6 @@ import (
 
 	"survivor/internal/application/game"
 	"survivor/internal/application/resource"
-	"survivor/internal/application/settings"
 	"survivor/internal/infrastructure/assets"
 	"survivor/internal/infrastructure/ebiten"
 )
@@ -19,27 +18,12 @@ const (
 )
 
 func main() {
-	textures := resource.NewManager(ebiten.NewTextureProvider(assets.FS), assets.NewMapProvider(assets.FS))
-	if err := textures.LoadTexture(assets.Player, settings.PlayerTexture); err != nil {
-		log.Fatalf("failed to load player texture: %v", err)
+	rm := resource.NewManager(ebiten.NewTextureProvider(assets.FS), assets.NewMapProvider(assets.FS))
+	if err := resource.LoadGameResources(rm, assets.GameManifest()); err != nil {
+		log.Fatalf("failed to load game resources: %v", err)
 	}
 
-	if err := textures.LoadTexture(assets.Enemy, settings.EnemyTexture); err != nil {
-		log.Fatalf("failed to load enemy texture: %v", err)
-	}
-
-	if err := textures.LoadTileset(
-		assets.Spritesheet, settings.FloorTileset,
-		settings.TileWidth, settings.TileHeight, settings.TileSpacing, settings.FloorTileCount,
-	); err != nil {
-		log.Fatalf("failed to load floor tileset: %v", err)
-	}
-
-	if err := textures.LoadPattern(assets.FloorMap, settings.FloorMapPattern); err != nil {
-		log.Fatalf("failed to load floor map: %v", err)
-	}
-
-	g := game.CreateGame(textures, ebiten.NewInputProvider(), screenWidth, screenHeight)
+	g := game.CreateGame(rm, ebiten.NewInputProvider(), screenWidth, screenHeight)
 
 	ebiten.RunGame(g)
 }

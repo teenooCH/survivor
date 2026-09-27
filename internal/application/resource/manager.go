@@ -1,3 +1,5 @@
+// Package resource provides a manager for loading and
+// retrieving game resources such as textures and tile patterns.
 package resource
 
 import (
@@ -26,7 +28,7 @@ func NewManager(textureProvider ports.TextureProvider, mapProvider ports.MapProv
 
 // LoadTexture loads a texture from the specified path and
 // associates it with the given name.
-func (m *Manager) LoadTexture(path, name string) error {
+func (m *Manager) LoadTexture(name, path string) error {
 	texture, err := m.textureProvider.LoadTexture(path)
 	if err != nil {
 		return err
@@ -40,7 +42,7 @@ func (m *Manager) LoadTexture(path, name string) error {
 // LoadTileset loads a spritesheet and slices it into count tiles of
 // tileWidth x tileHeight pixels (see ports.TextureProvider.LoadTileset),
 // storing each one under "namePrefix_<index>".
-func (m *Manager) LoadTileset(path, namePrefix string, tileWidth, tileHeight, spacing, count int) error {
+func (m *Manager) LoadTileset(namePrefix, path string, tileWidth, tileHeight, spacing, count int) error {
 	textures, err := m.textureProvider.LoadTileset(path, tileWidth, tileHeight, spacing, count)
 	if err != nil {
 		return err
@@ -55,7 +57,7 @@ func (m *Manager) LoadTileset(path, namePrefix string, tileWidth, tileHeight, sp
 
 // LoadPattern loads a tile index grid from the specified path and
 // associates it with the given name.
-func (m *Manager) LoadPattern(path, name string) error {
+func (m *Manager) LoadPattern(name, path string) error {
 	data, err := m.mapProvider.LoadMap(path)
 	if err != nil {
 		return err
