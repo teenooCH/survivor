@@ -42,9 +42,9 @@ func CreateGame(textures *resource.Manager,
 	engine.World().AddNode(e, 1)
 
 	gameOverWidget := CreateGameOverWidget(float64(screenWidth)/2, float64(screenHeight)/2)
-	engine.HUD().AddWidget(gameOverWidget)
 
 	g := NewGame(engine, p, e, gameOverWidget)
+	g.HUD().AddWidget(gameOverWidget)
 	WirePlayerCallbacks(p, g)
 
 	return g

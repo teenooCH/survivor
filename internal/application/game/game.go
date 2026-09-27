@@ -12,6 +12,7 @@ type Game struct {
 	engine *engine.Engine
 	player *player.Player
 	enemy  *enemy.Enemy
+	hud    *ui.HUD
 
 	gameOver       bool
 	gameOverWidget *ui.Text
@@ -25,9 +26,12 @@ func NewGame(engine *engine.Engine,
 		engine:         engine,
 		player:         player,
 		enemy:          enemy,
+		hud:            ui.NewHUD(),
 		gameOverWidget: gameOverWidget,
 	}
 }
+
+func (g *Game) HUD() *ui.HUD { return g.hud }
 
 // Update the game state, e.g., player, enemy, collisions, etc.
 func (g *Game) Update() {
@@ -44,6 +48,7 @@ func (g *Game) Update() {
 
 func (g *Game) Draw(screen graph.Image) {
 	g.engine.Draw(screen)
+	g.hud.Draw(screen)
 }
 
 func (g *Game) SetGameOver() {
