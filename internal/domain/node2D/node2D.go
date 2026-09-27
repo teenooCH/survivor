@@ -44,6 +44,10 @@ func (n *Node2D) GetParent() node.Node        { return n.parent }
 func (n *Node2D) AttachParent(node node.Node) { n.parent = node }
 
 func (n *Node2D) AddChild(child node.Node) {
+	if child.GetParent() != nil {
+		return
+	}
+
 	child.AttachParent(n)
 	n.children = append(n.children, child)
 }
