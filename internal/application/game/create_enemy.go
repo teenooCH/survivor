@@ -29,7 +29,5 @@ func CreateEnemy(name string, engine *engine.Engine, layer int) *enemy.Enemy {
 	e.AddChild(c)
 	engine.CollisionManager().AddCollider(c)
 
-	engine.World().AddNode(e, layer)
-
 	return e
 }

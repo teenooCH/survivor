@@ -39,8 +39,6 @@ func (g *Game) Update() {
 		return
 	}
 
-	g.player.Update()
-	g.enemy.Update()
 	g.engine.CollisionManager().ProcessCollisions()
 
 	g.engine.Update()
