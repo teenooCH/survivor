@@ -28,5 +28,5 @@ func main() {
 		log.Fatalf("failed to create game: %v", err)
 	}
 
-	ebiten.RunGame(g)
+	ebiten.RunGame(g, "Survivor - Player Draw Test", screenWidth, screenHeight)
 }

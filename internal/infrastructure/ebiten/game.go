@@ -9,14 +9,11 @@ import (
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
-const (
-	screenWidth  = 640
-	screenHeight = 480
-)
-
 // ebGame implements ebiten.Game and drives the survivor engine.
 type ebGame struct {
-	game *game.Game
+	game   *game.Game
+	width  int
+	height int
 }
 
 func (g *ebGame) Update() error {
@@ -29,24 +26,18 @@ func (g *ebGame) Draw(screen *ebiten.Image) {
 }
 
 func (g *ebGame) Layout(outsideWidth, outsideHeight int) (int, int) {
-	return screenWidth, screenHeight
-}
-
-func NewEbGame(game *game.Game) *ebGame {
-	return &ebGame{
-		game: game,
-	}
+	return g.width, g.height
 }
 
 func GetNewImage(width, height int) graph.Image {
 	return newEbitenImage(ebiten.NewImage(width, height))
 }
 
-func RunGame(g *game.Game) {
-	ebiten.SetWindowSize(screenWidth, screenHeight)
-	ebiten.SetWindowTitle("Survivor - Player Draw Test")
+func RunGame(g *game.Game, title string, width, height int) {
+	ebiten.SetWindowSize(width, height)
+	ebiten.SetWindowTitle(title)
 
-	if err := ebiten.RunGame(&ebGame{game: g}); err != nil {
+	if err := ebiten.RunGame(&ebGame{game: g, width: width, height: height}); err != nil {
 		log.Fatal(err)
 	}
 }
