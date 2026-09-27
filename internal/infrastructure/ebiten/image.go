@@ -65,6 +65,7 @@ func (e *ebitenImage) DrawText(opts graph.TextOpt) {
 	if size <= 0 {
 		size = defaultFontSize
 	}
+
 	scale := size / defaultFontSize
 
 	textWidth, textHeight := text.Measure(opts.Text, hudFace, defaultFontSize)

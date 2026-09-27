@@ -3,7 +3,7 @@ package ebiten
 import (
 	"log"
 
-	"survivor/internal/application/engine"
+	"survivor/internal/application/game"
 	"survivor/internal/domain/graph"
 
 	"github.com/hajimehoshi/ebiten/v2"
@@ -16,25 +16,25 @@ const (
 
 // ebGame implements ebiten.Game and drives the survivor engine.
 type ebGame struct {
-	engine *engine.Engine
+	game *game.Game
 }
 
 func (g *ebGame) Update() error {
-	g.engine.Update()
+	g.game.Update()
 	return nil
 }
 
 func (g *ebGame) Draw(screen *ebiten.Image) {
-	g.engine.Draw(newEbitenImage(screen))
+	g.game.Draw(newEbitenImage(screen))
 }
 
 func (g *ebGame) Layout(outsideWidth, outsideHeight int) (int, int) {
 	return screenWidth, screenHeight
 }
 
-func NewEbGame(engine *engine.Engine) *ebGame {
+func NewEbGame(game *game.Game) *ebGame {
 	return &ebGame{
-		engine: engine,
+		game: game,
 	}
 }
 
@@ -42,11 +42,11 @@ func GetNewImage(width, height int) graph.Image {
 	return newEbitenImage(ebiten.NewImage(width, height))
 }
 
-func RunGame(eng *engine.Engine) {
+func RunGame(g *game.Game) {
 	ebiten.SetWindowSize(screenWidth, screenHeight)
 	ebiten.SetWindowTitle("Survivor - Player Draw Test")
 
-	if err := ebiten.RunGame(&ebGame{engine: eng}); err != nil {
+	if err := ebiten.RunGame(&ebGame{game: g}); err != nil {
 		log.Fatal(err)
 	}
 }

@@ -4,16 +4,11 @@
 package main
 
 import (
-	"image/color"
 	"log"
 
-	"survivor/internal/application/engine"
 	"survivor/internal/application/game"
 	"survivor/internal/application/resource"
 	"survivor/internal/application/settings"
-	"survivor/internal/domain/camera"
-	"survivor/internal/domain/ui"
-	"survivor/internal/domain/world"
 	"survivor/internal/infrastructure/assets"
 	"survivor/internal/infrastructure/ebiten"
 )
@@ -44,33 +39,7 @@ func main() {
 		log.Fatalf("failed to load floor map: %v", err)
 	}
 
-	camera := camera.New(screenWidth, screenHeight)
-	world := world.New(camera)
-	eng := engine.New(world, textures, ebiten.NewInputProvider())
+	g := game.CreateGame(textures, ebiten.NewInputProvider(), screenWidth, screenHeight)
 
-	game.RegisterDefaultBindings(eng)
-
-	if _, err := game.CreateTileMap(settings.FloorName, eng, camera, 0); err != nil {
-		log.Fatalf("failed to create tilemap: %v", err)
-	}
-
-	p := game.CreatePlayer(settings.PlayerName, eng, 1)
-	p.SetPosition(screenWidth/2, screenHeight/2)
-	eng.World().AddNode(p, 1)
-	camera.SetFollow(p)
-
-	e := game.CreateEnemy(settings.EnemyName, eng, 1)
-	e.SetPosition(screenWidth/2+150, screenHeight/2)
-	e.SetSpeed(settings.EnemySpeed)
-	e.SetTarget(p)
-	eng.World().AddNode(e, 1)
-
-	hudText := ui.NewText("HP: 100", 10, 10)
-	hudText.SetColor(color.White)
-	hudText.SetSize(16)
-	hudText.SetBackground(ui.NewBackground(color.RGBA{A: 160}))
-	hudText.SetBorder(ui.NewBorder(color.White, 1))
-	eng.HUD().AddWidget(hudText)
-
-	ebiten.RunGame(eng)
+	ebiten.RunGame(g)
 }
