@@ -39,6 +39,8 @@ func CreateGame(textures *resource.Manager,
 	engine.World().AddNode(p, 1)
 	camera.SetFollow(p)
 
+	engine.World().AddNode(camera, 1) // after adding the player!
+
 	e, err := CreateEnemy(settings.EnemyName, engine, 1)
 	if err != nil {
 		return nil, fmt.Errorf("failed to create enemy: %v", err)

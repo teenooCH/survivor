@@ -92,8 +92,6 @@ func updateNode(n node.Node) {
 // It prepares the draw callbacks for all drawable nodes and
 // executes them in the correct order.
 func (w *World) Draw(target graph.Image) {
-	w.camera.Update() // TODO - Check if it should be called in Update() instead of Draw()
-
 	cb := newCallbackStacks()
 	for i, layerRoot := range w.layerRoots {
 		prepareCallbacks(cb, w.camera, layerRoot, i, target)
