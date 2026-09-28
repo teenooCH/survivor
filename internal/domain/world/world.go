@@ -30,6 +30,8 @@ func New(camera *camera.Camera) *World {
 	}
 }
 
+func (w *World) Camera() *camera.Camera { return w.camera }
+
 // AddNode adds a node to the specified layer.
 // If the layer does not exist, it will be created.
 func (w *World) AddNode(n node.Node, layerIndex int) {

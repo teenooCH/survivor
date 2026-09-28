@@ -33,15 +33,21 @@ func NewGame(engine *engine.Engine,
 
 func (g *Game) HUD() *ui.HUD { return g.hud }
 
-// Update the game state, e.g., player, enemy, collisions, etc.
+// Update the game state in a specified order.
 func (g *Game) Update() {
 	if g.gameOver {
 		return
 	}
 
-	g.engine.CollisionManager().ProcessCollisions()
+	// World updates updateable nodes such as the player, enemy,
+	// and other entities exactly once per frame.
+	g.engine.UpdateWorld()
 
-	g.engine.Update()
+	// Camera follows the newly updated player.
+	g.engine.UpdateCamera()
+
+	// Collision checks use post-movement positions.
+	g.engine.ProcessCollisions()
 }
 
 func (g *Game) Draw(screen graph.Image) {

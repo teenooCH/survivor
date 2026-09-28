@@ -32,8 +32,16 @@ func (e *Engine) InputManager() *input.Manager         { return e.input }
 func (e *Engine) ResourceManager() *resource.Manager   { return e.resource }
 func (e *Engine) CollisionManager() *collision.Manager { return e.collision }
 
-func (e *Engine) Update() {
+func (e *Engine) UpdateWorld() {
 	e.world.Update()
+}
+
+func (e *Engine) UpdateCamera() {
+	e.world.Camera().Update()
+}
+
+func (e *Engine) ProcessCollisions() {
+	e.collision.ProcessCollisions()
 }
 
 func (e *Engine) Draw(target graph.Image) {
