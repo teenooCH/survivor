@@ -3,7 +3,7 @@ package game
 import (
 	"fmt"
 
-	"survivor/internal/application/engine"
+	"survivor/internal/application/resource"
 	"survivor/internal/application/settings"
 	"survivor/internal/domain/graph"
 	"survivor/internal/domain/tile"
@@ -16,8 +16,8 @@ import (
 // resource.Manager.LoadPattern and LoadTileset), and adds it to the world
 // on the given layer. viewport is typically the engine's camera; the
 // tilemap streams chunks in and out of memory as the viewport moves.
-func CreateTileMap(name string, engine *engine.Engine, viewport tile.Viewport, layer int) (*tile.TileMap, error) {
-	pattern, ok := engine.ResourceManager().GetPattern(settings.FloorMapPattern)
+func CreateTileMap(name string, rm *resource.Manager, viewport tile.Viewport, layer int) (*tile.TileMap, error) {
+	pattern, ok := rm.GetPattern(settings.FloorMapPattern)
 	if !ok {
 		return nil, fmt.Errorf("tilemap: pattern %q not loaded", settings.FloorMapPattern)
 	}
@@ -27,7 +27,7 @@ func CreateTileMap(name string, engine *engine.Engine, viewport tile.Viewport, l
 	for i := range textures {
 		texName := fmt.Sprintf("%s_%d", settings.FloorTileset, i)
 
-		tex, ok := engine.ResourceManager().GetTexture(texName)
+		tex, ok := rm.GetTexture(texName)
 		if !ok {
 			return nil, fmt.Errorf("tilemap: texture %q not loaded", texName)
 		}
@@ -38,12 +38,10 @@ func CreateTileMap(name string, engine *engine.Engine, viewport tile.Viewport, l
 	tileSet := tile.NewTileSet(textures)
 	generator := tile.NewPatternGenerator(pattern)
 
-	tm := tile.New(
+	tm := tile.NewMap(
 		name, tileSet, generator, viewport,
 		settings.TileWidth, settings.TileHeight, settings.TileMapLoadMargin, layer,
 	)
-
-	engine.World().AddNode(tm, layer)
 
 	return tm, nil
 }

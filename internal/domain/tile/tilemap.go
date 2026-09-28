@@ -27,10 +27,10 @@ type TileMap struct {
 	loaded map[ChunkCoord]*Chunk
 }
 
-// New creates a TileMap that keeps chunks around viewport loaded, using
+// NewMap creates a TileMap that keeps chunks around viewport loaded, using
 // generator to produce chunk content and tileSet to resolve tile indices
 // to textures. tileWidth/tileHeight is the size of one tile in pixels.
-func New(
+func NewMap(
 	name string, tileSet *TileSet, generator ChunkGenerator, viewport Viewport,
 	tileWidth, tileHeight, loadMargin, layer int,
 ) *TileMap {
@@ -78,10 +78,9 @@ func (m *TileMap) visibleChunkRange() (min, max ChunkCoord) {
 	return min, max
 }
 
-// Update loads chunks that entered the viewport and unloads chunks that
-// left it. It implements world.Updatable so the scene graph drives it
-// automatically.
-func (m *TileMap) Update() {
+// UpdateTileMap loads chunks that entered the viewport and unloads chunks that
+// left it.
+func (m *TileMap) UpdateTileMap() {
 	min, max := m.visibleChunkRange()
 
 	for y := min.Y; y <= max.Y; y++ {
