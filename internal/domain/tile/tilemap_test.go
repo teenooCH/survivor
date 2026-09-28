@@ -38,14 +38,14 @@ func newTileMap(t *testing.T, viewport tile.Viewport) *tile.TileMap {
 	generator := tile.NewPatternGenerator(pattern)
 
 	// tile size 10x10, chunk size 2x2 -> chunk is 20x20 pixels, no margin.
-	return tile.New("floor", tileSet, generator, viewport, 10, 10, 0, 0)
+	return tile.NewMap("floor", tileSet, generator, viewport, 10, 10, 0, 0)
 }
 
 func TestTileMapUpdateLoadsChunksCoveringViewport(t *testing.T) {
 	viewport := &fakeViewport{pos: vector.New(0, 0), width: 25, height: 25}
 	tm := newTileMap(t, viewport)
 
-	tm.Update()
+	tm.UpdateTileMap()
 
 	// viewport spans pixels [0,25) in both axes with 20px chunks -> chunks 0 and 1.
 	if got := tm.LoadedChunkCount(); got != 4 {
@@ -57,7 +57,7 @@ func TestTileMapUpdateUnloadsChunksOutOfView(t *testing.T) {
 	viewport := &fakeViewport{pos: vector.New(0, 0), width: 25, height: 25}
 	tm := newTileMap(t, viewport)
 
-	tm.Update()
+	tm.UpdateTileMap()
 
 	if got := tm.LoadedChunkCount(); got != 4 {
 		t.Fatalf("LoadedChunkCount() after first Update() = %d, want 4", got)
@@ -66,7 +66,7 @@ func TestTileMapUpdateUnloadsChunksOutOfView(t *testing.T) {
 	// Move far away: none of the originally loaded chunks should remain.
 	viewport.pos = vector.New(2000, 2000)
 
-	tm.Update()
+	tm.UpdateTileMap()
 
 	if got := tm.LoadedChunkCount(); got != 4 {
 		t.Fatalf("LoadedChunkCount() after moving = %d, want 4", got)
@@ -77,7 +77,7 @@ func TestTileMapDrawDrawsLoadedTiles(t *testing.T) {
 	viewport := &fakeViewport{pos: vector.New(0, 0), width: 20, height: 20}
 	tm := newTileMap(t, viewport)
 
-	tm.Update() // loads the 2x2 chunks covering the 20x20 viewport (chunk size == viewport size)
+	tm.UpdateTileMap() // loads the 2x2 chunks covering the 20x20 viewport (chunk size == viewport size)
 
 	target := &fakeImage{}
 	tm.Draw(target, graph.DrawOpt{Transform: transform.NewZero()})

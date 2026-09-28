@@ -26,9 +26,13 @@ func CreateGame(textures *resource.Manager,
 
 	RegisterDefaultBindings(engine)
 
-	if _, err := CreateTileMap(settings.FloorName, engine, camera, 0); err != nil {
+	tm, err := CreateTileMap(settings.FloorName, engine.ResourceManager(), camera, 0)
+	if err != nil {
 		return nil, fmt.Errorf("failed to create tilemap: %v", err)
 	}
+
+	engine.SetTileMap(tm)
+	engine.World().AddNode(tm, 0)
 
 	p, err := CreatePlayer(settings.PlayerName, engine, 1)
 	if err != nil {

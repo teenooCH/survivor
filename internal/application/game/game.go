@@ -46,12 +46,15 @@ func (g *Game) Update() {
 	// Camera follows the newly updated player.
 	g.engine.UpdateCamera()
 
+	// Tilemap streaming uses the current camera position.
+	g.engine.UpdateStreaming()
+
 	// Collision checks use post-movement positions.
 	g.engine.ProcessCollisions()
 }
 
 func (g *Game) Draw(screen graph.Image) {
-	g.engine.Draw(screen)
+	g.engine.DrawWorld(screen)
 	g.hud.Draw(screen)
 }
 
