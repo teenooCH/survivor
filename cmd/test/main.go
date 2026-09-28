@@ -1,6 +1,5 @@
-// Command test is a manual integration test that wires the player and
-// engine packages together and renders a static player sprite to a
-// 640x480 window using ebiten as the graphics backend.
+// Command test is an integration test that creates and runs
+// the game using the ebiten backend.
 package main
 
 import (

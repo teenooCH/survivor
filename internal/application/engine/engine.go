@@ -1,3 +1,9 @@
+// Package engine coordinates the runtime services used by the game, including
+// the world, input, resources, tilemap streaming, and collision processing.
+// It exposes separate update and draw operations so the application can
+// control their order within each frame. Input is provided through a
+// platform-independent interface, keeping hardware-specific details outside
+// this package.
 package engine
 
 import (

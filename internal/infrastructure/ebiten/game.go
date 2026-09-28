@@ -1,3 +1,9 @@
+// Package ebiten adapts the application and domain interfaces to Ebitengine.
+// It provides an Ebitengine-backed game loop, image and text rendering,
+// texture loading, and keyboard, mouse, and gamepad input.
+//
+// Applications can create the input and texture providers during setup, then
+// pass the application game to RunGame to start the Ebitengine runtime.
 package ebiten
 
 import (

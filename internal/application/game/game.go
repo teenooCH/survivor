@@ -1,3 +1,11 @@
+// Package game assembles and coordinates the application's gameplay.
+// CreateGame builds a game from loaded resources and an input provider,
+// wiring together the engine, world, player, enemy, tilemap, and game-over UI.
+//
+// Game.Update advances the world, camera, tilemap streaming, and collision
+// processing in order. Game.Draw renders the world and HUD without updating
+// game state. Platform-specific input and rendering implementations are
+// supplied by the caller.
 package game
 
 import (
@@ -33,7 +41,7 @@ func NewGame(engine *engine.Engine,
 
 func (g *Game) HUD() *ui.HUD { return g.hud }
 
-// Update the game state in a specified order.
+// Update the game state in a specific order.
 func (g *Game) Update() {
 	if g.gameOver {
 		return
