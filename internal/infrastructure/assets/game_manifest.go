@@ -8,13 +8,13 @@ import (
 func GameManifest() resource.Manifest {
 	return resource.Manifest{
 		Textures: []resource.TextureSpec{
-			{Key: settings.PlayerTexture, Path: Player},
-			{Key: settings.EnemyTexture, Path: Enemy},
+			{Key: settings.PlayerTexture, Path: "sprites/player.png"},
+			{Key: settings.EnemyTexture, Path: "sprites/enemy.png"},
 		},
 		TileSets: []resource.TileSetSpec{
 			{
 				Key:        settings.FloorTileset,
-				Path:       Spritesheet,
+				Path:       "sprites/spritesheet.png",
 				TileWidth:  settings.TileWidth,
 				TileHeight: settings.TileHeight,
 				Spacing:    settings.TileSpacing,
@@ -22,7 +22,7 @@ func GameManifest() resource.Manifest {
 			},
 		},
 		Patterns: []resource.PatternSpec{
-			{Key: settings.FloorMapPattern, Path: FloorMap},
+			{Key: settings.FloorMapPattern, Path: "maps/floor.map"},
 		},
 	}
 }
